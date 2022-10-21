@@ -1,7 +1,8 @@
-import * as React from 'react'
-import { Navbar } from '../components/Navbar'
-import { Announcement } from '../components/Announcement'
-import { Slider } from '../components/Slider'
+import * as React from 'react';
+import { Navbar } from '../components/Navbar';
+import { Announcement } from '../components/Announcement';
+import { Slider } from '../components/Slider';
+import { Categories } from '../components/Categories';
 
 export const Home = () => {
   return (
@@ -9,6 +10,7 @@ export const Home = () => {
       <Announcement />
       <Navbar />
       <Slider />
+      <Categories />
     </div>
-  )
-}
+  );
+};
