@@ -1,9 +1,17 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { ArrowBackIosNewOutlined, ArrowForwardIosOutlined } from '@mui/icons-material'
+import { useState } from 'react'
+import { sliderItems } from '../data'
 
 interface ArrowProps {
   direction: string
+}
+interface WrapperProps {
+  slideIndex: number
+}
+interface SlideProps {
+  bg: string
 }
 
 const Container = styled.div`
@@ -11,6 +19,7 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   position: relative;
+  overflow: hidden;
 `
 const Arrow = styled.div`
   display: flex;
@@ -28,16 +37,21 @@ const Arrow = styled.div`
   margin: auto;
   cursor: pointer;
   opacity: 0.5;
+  z-index: 2;
 `
 
 const Wrapper = styled.div`
   height: 100%;
+  display: flex;
+  transition: all 1.5s ease;
+  transform: translateX(${(props: WrapperProps) => props.slideIndex * -100}vw);
 `
 const Slide = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
+  background-color: #${(props: SlideProps) => props.bg};
 `
 const ImgContainer = styled.div`
   height: 100%;
@@ -50,6 +64,7 @@ const Image = styled.img`
 const InfoContainer = styled.div`
   flex: 1;
   padding: 50px;
+  margin-right: 50px;
 `
 
 const Title = styled.h1`
@@ -70,28 +85,35 @@ const Button = styled.button`
 `
 
 export const Slider = () => {
+  const [slideIndex, setSlideIndex] = useState(0)
+  const handleCLick = (direction: string) => {
+    if (direction === 'left') {
+      setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2)
+    } else {
+      setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0)
+    }
+  }
+
   return (
     <Container>
-      <Arrow direction='left'>
+      <Arrow direction='left' onClick={() => handleCLick('left')}>
         <ArrowBackIosNewOutlined />
       </Arrow>
-      <Wrapper>
-        <Slide>
-          <ImgContainer>
-            <Image src='https://images.pexels.com/photos/3778212/pexels-photo-3778212.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' />
-          </ImgContainer>
-          <InfoContainer>
-            <Title>JESIENNA WYPRZEDAŻ</Title>
-            <Desc>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum iusto obcaecati sint.
-              Accusantium aliquam aliquid ducimus eius enim ipsa minus, odit porro, praesentium,
-              quaerat quasi recusandae repellendus vero vitae voluptates.
-            </Desc>
-            <Button>KUP TERAZ</Button>
-          </InfoContainer>
-        </Slide>
+      <Wrapper slideIndex={slideIndex}>
+        {sliderItems.map((item) => (
+          <Slide key={item.id} bg={item.bg}>
+            <ImgContainer>
+              <Image src={item.img} />
+            </ImgContainer>
+            <InfoContainer>
+              <Title>{item.title}</Title>
+              <Desc>{item.desc}</Desc>
+              <Button>ZOBACZ</Button>
+            </InfoContainer>
+          </Slide>
+        ))}
       </Wrapper>
-      <Arrow direction='right'>
+      <Arrow direction='right' onClick={() => handleCLick('right')}>
         <ArrowForwardIosOutlined />
       </Arrow>
     </Container>
