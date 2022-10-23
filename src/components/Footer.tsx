@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Pinterest } from '@mui/icons-material';
+import { Facebook, Instagram, MailOutline, Phone, Pinterest, Room } from '@mui/icons-material';
 import * as React from 'react';
 import styled from 'styled-components';
 
@@ -56,6 +56,12 @@ const Right = styled.div`
   padding: 20px;
 `;
 
+const ContactItem = styled.div`
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+`;
+
 export const Footer = () => {
   return (
     <Container>
@@ -90,7 +96,21 @@ export const Footer = () => {
           <ListItem>Promocje</ListItem>
         </List>
       </Center>
-      <Right></Right>
+      <Right>
+        <Title>Kontakt</Title>
+        <ContactItem>
+          <Room style={{ marginRight: '10px' }} />
+          XX Ulica, XX-XXX Miasto
+        </ContactItem>
+        <ContactItem>
+          <Phone style={{ marginRight: '10px' }} />
+          +48 123 456 789
+        </ContactItem>
+        <ContactItem>
+          <MailOutline style={{ marginRight: '10px' }} />
+          kontakt@garniak4u.pl
+        </ContactItem>
+      </Right>
     </Container>
   );
 };
