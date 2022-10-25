@@ -10,17 +10,9 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 
-const Title = styled.h1`
-  width: 100%;
-  text-align: center;
-  font-weight: 900;
-  margin-top: 20px;
-`;
-
 export const Products = () => {
   return (
     <>
-      <Title>Bestsellers</Title>
       <Container>
         {popularProducts.map((item) => (
           <Product key={item.id} item={item} />

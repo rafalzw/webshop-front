@@ -108,7 +108,7 @@ export const Footer = () => {
         </ContactItem>
         <ContactItem>
           <MailOutline style={{ marginRight: '10px' }} />
-          kontakt@garniak4u.pl
+          kontakt@garniak4you.pl
         </ContactItem>
       </Right>
     </Container>
