@@ -59,7 +59,7 @@ export const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>ELEGANCIK.PL</Logo>
+          <Logo>GARNIAK4YOU</Logo>
         </Center>
         <Right>
           <Menuitem>REJESTRACJA</Menuitem>
