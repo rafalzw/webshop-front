@@ -5,7 +5,7 @@ import { Announcement } from '../components/Announcement';
 import { Newsletter } from '../components/Newsletter';
 import { Footer } from '../components/Footer';
 import { Add, Remove } from '@mui/icons-material';
-import { mobile } from '../responsive';
+import { mobile, tablet } from '../responsive';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -21,6 +21,7 @@ const Image = styled.img`
   height: 90vh;
   object-fit: cover;
   ${mobile({ height: '40vh' })}
+  ${tablet({ height: '60vh' })}
 `;
 const InfoContainer = styled.div`
   flex: 1;

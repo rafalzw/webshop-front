@@ -4,7 +4,7 @@ import { Footer } from '../components/Footer';
 import { Navbar } from '../components/Navbar';
 import styled from 'styled-components';
 import { Add, Remove } from '@mui/icons-material';
-import { mobile } from '../responsive';
+import { mobile, tablet } from '../responsive';
 
 interface TopButtonProps {
   value?: string;
@@ -52,6 +52,7 @@ const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
   ${mobile({ flexDirection: 'column' })}
+  ${tablet({ flexDirection: 'column' })}
 `;
 const Info = styled.div`
   flex: 3;
