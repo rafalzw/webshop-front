@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { ArrowBackIosNewOutlined, ArrowForwardIosOutlined } from '@mui/icons-material';
 import { useState } from 'react';
 import { sliderItems } from '../data';
-import { mobile } from '../responsive';
+import { mobile, tablet } from '../responsive';
 
 interface ArrowProps {
   direction: string;
@@ -22,6 +22,7 @@ const Container = styled.div`
   position: relative;
   overflow: hidden;
   ${mobile({ display: 'none' })}
+  ${tablet({ display: 'none' })}
 `;
 const Arrow = styled.div`
   display: flex;
