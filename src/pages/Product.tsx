@@ -73,6 +73,7 @@ const AddContainer = styled.div`
   justify-content: space-between;
   width: 50%;
   ${mobile({ width: '100%' })}
+  ${tablet({ width: '100%' })}
 `;
 
 const AmountContainer = styled.div`
@@ -93,13 +94,15 @@ const Amount = styled.span`
 
 const Button = styled.button`
   padding: 15px;
-  border: 2px solid #d3d3d3;
-  background-color: #fff;
+  border: none;
+  background-color: #000;
+  color: #fff;
   cursor: pointer;
   font-weight: 600;
+  transition: background-color 0.5s ease;
 
   &:hover {
-    background-color: #eee;
+    background-color: #404040;
   }
 `;
 

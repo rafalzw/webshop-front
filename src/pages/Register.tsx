@@ -42,10 +42,14 @@ const Button = styled.button`
   width: 40%;
   border: none;
   padding: 15px 20px;
-  background-color: cadetblue;
+  background-color: #000;
   color: #fff;
   cursor: pointer;
   margin-top: 20px;
+  transition: background-color 0.5s ease;
+  &:hover {
+    background-color: #404040;
+  }
 `;
 
 export const Register = () => {

@@ -38,6 +38,10 @@ const TopButton = styled.button<TopButtonProps>`
   background-color: ${(props: TopButtonProps) =>
     props.value === 'filled' ? 'black' : 'transparent'};
   color: ${(props: TopButtonProps) => props.value === 'filled' && 'white'};
+  transition: background-color 0.5s ease;
+  &:hover {
+    background-color: ${(props: TopButtonProps) => (props.value === 'filled' ? '#404040' : '#eee')};
+  }
 `;
 
 const TopTexts = styled.div`
@@ -137,11 +141,16 @@ const SummaryItemText = styled.span``;
 const SummaryItemPrice = styled.span``;
 const Button = styled.button`
   width: 100%;
-  padding: 10px;
-  background-color: black;
+  padding: 12px;
+  border: none;
+  background-color: #000;
   color: white;
   font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.5s ease;
+  &:hover {
+    background-color: #404040;
+  }
 `;
 
 export const Cart = () => {

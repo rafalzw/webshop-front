@@ -44,10 +44,14 @@ const Button = styled.button`
   width: 40%;
   border: none;
   padding: 15px 20px;
-  background-color: cadetblue;
+  background-color: #000;
   color: #fff;
   cursor: pointer;
   margin: 20px 0 10px 0;
+  transition: background-color 0.5s ease;
+  &:hover {
+    background-color: #404040;
+  }
 `;
 
 const Link = styled.a`

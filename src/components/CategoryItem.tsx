@@ -37,6 +37,10 @@ const Button = styled.button`
   color: #555;
   cursor: pointer;
   font-weight: 700;
+  transition: all 0.5s ease;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 interface CategoryProps {
