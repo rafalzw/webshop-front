@@ -2,15 +2,18 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Search, ShoppingCartOutlined } from '@mui/icons-material';
 import { Badge } from '@mui/material';
+import { mobile } from '../responsive';
 
 const Container = styled.div`
   height: 60px;
+  ${mobile({ height: '120px' })}
 `;
 const Wrapper = styled.div`
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  ${mobile({ flexDirection: 'column', padding: '10px 0', height: '100%' })}
 `;
 
 const Left = styled.div`
@@ -25,9 +28,11 @@ const SearchContainer = styled.div`
   border: 1px solid #d3d3d3;
   margin-left: 25px;
   padding: 5px;
+  ${mobile({ marginLeft: '0' })}
 `;
 const Input = styled.input`
   border: none;
+  ${mobile({ width: '50px' })}
 `;
 const Center = styled.div`
   flex: 1;
@@ -35,17 +40,20 @@ const Center = styled.div`
 `;
 const Logo = styled.h1`
   font-weight: bold;
+  ${mobile({ fontSize: '26px' })}
 `;
 const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
   flex: 1;
+  ${mobile({ justifyContent: 'space-between', height: '100%' })}
 `;
 const Menuitem = styled.div`
   font-size: 14px;
-  cursor: pointer;
   margin-left: 25px;
+  cursor: pointer;
+  ${mobile({ fontSize: '12px', marginLeft: '10px' })}
 `;
 
 export const Navbar = () => {
@@ -54,7 +62,7 @@ export const Navbar = () => {
       <Wrapper>
         <Left>
           <SearchContainer>
-            <Input />
+            <Input placeholder='Szukaj' />
             <Search style={{ color: 'gray', fontSize: 20 }} />
           </SearchContainer>
         </Left>
