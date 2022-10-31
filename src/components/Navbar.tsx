@@ -6,7 +6,7 @@ import { mobile } from '../responsive';
 
 const Container = styled.div`
   height: 60px;
-  ${mobile({ height: '120px' })}
+  ${mobile({ height: '120px', marginBottom: '20px' })}
 `;
 const Wrapper = styled.div`
   padding: 10px 20px;
@@ -40,7 +40,6 @@ const Center = styled.div`
 `;
 const Logo = styled.h1`
   font-weight: bold;
-  ${mobile({ fontSize: '26px' })}
 `;
 const Right = styled.div`
   display: flex;
