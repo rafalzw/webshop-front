@@ -20,7 +20,8 @@ const Desc = styled.div`
   font-size: 24px;
   font-weight: 300;
   margin-bottom: 20px;
-  ${mobile({ textAlign: 'center' })}
+  padding: 0 5px;
+  ${mobile({ textAlign: 'center', fontSize: '18px' })}
 `;
 const InputContainer = styled.div`
   width: 50%;
