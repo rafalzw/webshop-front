@@ -10,6 +10,7 @@ export interface Categories {
   id: number;
   img: string;
   title: string;
+  cat: string;
 }
 export interface PopularProduct {
   id: number;
@@ -45,16 +46,19 @@ export const categories: Categories[] = [
     id: 1,
     img: 'https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     title: 'GARNITURY',
+    cat: 'garnitury',
   },
   {
     id: 2,
     img: 'https://cdn.pixabay.com/photo/2014/08/26/21/48/shirts-428600_960_720.jpg',
     title: 'KOSZULE',
+    cat: 'koszule',
   },
   {
     id: 3,
     img: 'https://images.pexels.com/photos/293406/pexels-photo-293406.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     title: 'OBUWIE',
+    cat: 'obuwie',
   },
 ];
 
