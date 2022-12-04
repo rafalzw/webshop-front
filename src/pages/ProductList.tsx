@@ -6,6 +6,8 @@ import { Products } from '../components/Products';
 import { Newsletter } from '../components/Newsletter';
 import { Footer } from '../components/Footer';
 import { mobile } from '../responsive';
+import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
 const Container = styled.div``;
 const Title = styled.h1`
@@ -33,6 +35,18 @@ const Select = styled.select`
 const Option = styled.option``;
 
 export const ProductList = () => {
+  const [filters, setFilters] = useState({});
+  const location = useLocation();
+  const cat = location.pathname.split('/')[2];
+
+  const handleFilters = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setFilters({
+      ...filters,
+      [e.target.name]: value,
+    });
+  };
+
   return (
     <Container>
       <Announcement />
@@ -41,10 +55,8 @@ export const ProductList = () => {
       <FilterContainer>
         <Filter>
           <FilterText>Filtry:</FilterText>
-          <Select>
-            <Option disabled selected>
-              Kolor
-            </Option>
+          <Select name='color' onChange={handleFilters}>
+            <Option disabled>Kolor</Option>
             <Option>Czarny</Option>
             <Option>Granatowy</Option>
             <Option>Niebieski</Option>
@@ -52,10 +64,8 @@ export const ProductList = () => {
             <Option>Biały</Option>
             <Option>Bordowy</Option>
           </Select>
-          <Select>
-            <Option disabled selected>
-              Rozmiar
-            </Option>
+          <Select name='size' onChange={handleFilters}>
+            <Option disabled>Rozmiar</Option>
             <Option>46/170</Option>
             <Option>46/176</Option>
             <Option>46/182</Option>
