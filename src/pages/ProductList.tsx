@@ -35,7 +35,7 @@ const Select = styled.select`
 const Option = styled.option``;
 
 export const ProductList = () => {
-  const [filters, setFilters] = useState({ color: '', size: '' });
+  const [filters, setFilters] = useState({});
   const [sort, setSort] = useState('newest');
   const location = useLocation();
   const cat = location.pathname.split('/')[2];

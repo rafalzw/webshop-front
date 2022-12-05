@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { popularProducts } from '../data';
 import { Product } from './Product';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -24,9 +23,22 @@ interface ProductsProps {
   sort?: string;
 }
 
-export const Products = ({ cat, filters, sort }: ProductsProps) => {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+export interface ProductInterface {
+  id: string;
+  title: string;
+  desc: string;
+  img: string;
+  categories: string[];
+  size: string[];
+  color: string;
+  price: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export const Products = ({ cat = '', filters = {}, sort = '' }: ProductsProps) => {
+  const [products, setProducts] = useState<ProductInterface[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<ProductInterface[]>([]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -40,10 +52,21 @@ export const Products = ({ cat, filters, sort }: ProductsProps) => {
     getProducts();
   }, [cat]);
 
+  useEffect(() => {
+    cat &&
+      setFilteredProducts(
+        products.filter((item) =>
+          Object.entries(filters as Filters).every(([key, value]) =>
+            item[key as keyof typeof filters].includes(value),
+          ),
+        ),
+      );
+  }, [products, cat, filters]);
+
   return (
     <>
       <Container>
-        {popularProducts.map((item) => (
+        {filteredProducts.map((item) => (
           <Product key={item.id} item={item} />
         ))}
       </Container>
