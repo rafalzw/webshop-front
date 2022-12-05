@@ -35,7 +35,8 @@ const Select = styled.select`
 const Option = styled.option``;
 
 export const ProductList = () => {
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({ color: '', size: '' });
+  const [sort, setSort] = useState('newest');
   const location = useLocation();
   const cat = location.pathname.split('/')[2];
 
@@ -75,15 +76,14 @@ export const ProductList = () => {
         </Filter>
         <Filter>
           <FilterText>Sortuj:</FilterText>
-          <Select>
-            <Option selected>Nazwa rosnąco</Option>
-            <Option>Nazwa malejąco</Option>
-            <Option>Cena rosnąco</Option>
-            <Option>Cena malejąco</Option>
+          <Select onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSort(e.target.value)}>
+            <Option value='newest'>Najnowsze</Option>
+            <Option value='asc'>Cena rosnąco</Option>
+            <Option value='desc'>Cena malejąco</Option>
           </Select>
         </Filter>
       </FilterContainer>
-      <Products />
+      <Products cat={cat} filters={filters} sort={sort} />
       <Newsletter />
       <Footer />
     </Container>
