@@ -44,7 +44,7 @@ export const ProductList = () => {
     const value = e.target.value;
     setFilters({
       ...filters,
-      [e.target.name]: value,
+      [e.target.name]: value.toLowerCase(),
     });
   };
 
@@ -52,7 +52,7 @@ export const ProductList = () => {
     <Container>
       <Announcement />
       <Navbar />
-      <Title>Garnitury</Title>
+      <Title>{cat.toUpperCase()}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filtry:</FilterText>
@@ -61,17 +61,17 @@ export const ProductList = () => {
             <Option>Czarny</Option>
             <Option>Granatowy</Option>
             <Option>Niebieski</Option>
-            <Option>Szaty</Option>
+            <Option>Szary</Option>
             <Option>Biały</Option>
             <Option>Bordowy</Option>
           </Select>
           <Select name='size' onChange={handleFilters}>
             <Option disabled>Rozmiar</Option>
-            <Option>46/170</Option>
-            <Option>46/176</Option>
-            <Option>46/182</Option>
-            <Option>48/170</Option>
-            <Option>48/176</Option>
+            <Option>S</Option>
+            <Option>M</Option>
+            <Option>L</Option>
+            <Option>Xl</Option>
+            <Option>XXL</Option>
           </Select>
         </Filter>
         <Filter>

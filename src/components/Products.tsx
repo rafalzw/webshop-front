@@ -24,7 +24,7 @@ interface ProductsProps {
 }
 
 export interface ProductInterface {
-  id: string;
+  _id: string;
   title: string;
   desc: string;
   img: string;
@@ -32,8 +32,8 @@ export interface ProductInterface {
   size: string[];
   color: string;
   price: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export const Products = ({ cat = '', filters = {}, sort = '' }: ProductsProps) => {
@@ -63,12 +63,24 @@ export const Products = ({ cat = '', filters = {}, sort = '' }: ProductsProps) =
       );
   }, [products, cat, filters]);
 
+  useEffect(() => {
+    if (sort === 'newest') {
+      setFilteredProducts((prev) =>
+        [...prev].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()),
+      );
+    } else if (sort === 'asc') {
+      setFilteredProducts((prev) => [...prev].sort((a, b) => a.price - b.price));
+    } else {
+      setFilteredProducts((prev) => [...prev].sort((a, b) => b.price - a.price));
+    }
+  }, [sort]);
+
   return (
     <>
       <Container>
-        {filteredProducts.map((item) => (
-          <Product key={item.id} item={item} />
-        ))}
+        {cat
+          ? filteredProducts.map((item) => <Product key={item._id} item={item} />)
+          : products.slice(0, 6).map((item) => <Product key={item._id} item={item} />)}
       </Container>
     </>
   );
