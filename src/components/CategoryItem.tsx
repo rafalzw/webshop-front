@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Categories } from '../data';
 import { mobile } from '../responsive';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   flex: 1;
@@ -38,6 +39,7 @@ const Button = styled.button`
   cursor: pointer;
   font-weight: 700;
   transition: all 0.5s ease;
+
   &:hover {
     transform: scale(1.1);
   }
@@ -50,11 +52,13 @@ interface CategoryProps {
 export const CategoryItem = ({ item }: CategoryProps) => {
   return (
     <Container>
-      <Image src={item.img} />
-      <Info>
-        <Title>{item.title}</Title>
-        <Button>KUP TERAZ</Button>
-      </Info>
+      <Link to={`/products/${item.cat}`}>
+        <Image src={item.img} />
+        <Info>
+          <Title>{item.title}</Title>
+          <Button>KUP TERAZ</Button>
+        </Info>
+      </Link>
     </Container>
   );
 };

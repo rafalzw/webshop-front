@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { PopularProduct } from '../data';
 import { ShoppingCartOutlined, SearchOutlined, FavoriteBorderOutlined } from '@mui/icons-material';
+import { ProductInterface } from './Products';
 
 const Info = styled.div`
   opacity: 0;
@@ -64,7 +64,7 @@ const Icon = styled.div`
 `;
 
 interface ProductProps {
-  item: PopularProduct;
+  item: ProductInterface;
 }
 
 export const Product = ({ item }: ProductProps) => {
