@@ -4,6 +4,7 @@ import { Product } from './Product';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { url } from '../config/config';
+import { ProductInterface } from 'types';
 
 const Container = styled.div`
   padding: 20px;
@@ -21,19 +22,6 @@ interface ProductsProps {
   cat?: string;
   filters?: Filters;
   sort?: string;
-}
-
-export interface ProductInterface {
-  _id: string;
-  title: string;
-  desc: string;
-  img: string;
-  categories: string[];
-  size: string[];
-  color: string;
-  price: number;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export const Products = ({ cat = '', filters = {}, sort = '' }: ProductsProps) => {
