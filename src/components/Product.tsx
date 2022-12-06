@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { ShoppingCartOutlined, SearchOutlined, FavoriteBorderOutlined } from '@mui/icons-material';
-import { ProductInterface } from './Products';
+import { ProductInterface } from 'types';
 
 const Info = styled.div`
   opacity: 0;
