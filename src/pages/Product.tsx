@@ -114,8 +114,8 @@ const Button = styled.button`
 export const Product = () => {
   const location = useLocation();
   const id = location.pathname.split('/')[2];
-
   const [product, setProduct] = useState<ProductInterface | null>(null);
+  const [quantity, setQuantity] = useState<number>(1);
 
   useEffect(() => {
     (async () => {
@@ -127,6 +127,10 @@ export const Product = () => {
       }
     })();
   }, [id]);
+
+  const handleQuantity = (type: string) => {
+    type === 'dec' ? quantity > 1 && setQuantity(quantity - 1) : setQuantity(quantity + 1);
+  };
 
   return (
     <Container>
@@ -143,14 +147,14 @@ export const Product = () => {
           <FilterContainer>
             <Filter>
               <FilterTitle>Kolor</FilterTitle>
-              {product?.color.map((c) => (
+              {product?.color?.map((c) => (
                 <FilterColor color={c} key={c} />
               ))}
             </Filter>
             <Filter>
               <FilterTitle>Rozmiar</FilterTitle>
               <FilterSize>
-                {product?.size.map((s) => (
+                {product?.size?.map((s) => (
                   <FilterSizeOption key={s}>{s}</FilterSizeOption>
                 ))}
               </FilterSize>
@@ -158,9 +162,9 @@ export const Product = () => {
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove onClick={() => handleQuantity('dec')} />
+              <Amount>{quantity}</Amount>
+              <Add onClick={() => handleQuantity('inc')} />
             </AmountContainer>
             <Button>DODAJ DO KOSZYKA</Button>
           </AddContainer>
