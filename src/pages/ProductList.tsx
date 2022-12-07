@@ -58,12 +58,12 @@ export const ProductList = () => {
           <FilterText>Filtry:</FilterText>
           <Select name='color' onChange={handleFilters}>
             <Option disabled>Kolor</Option>
-            <Option>Czarny</Option>
-            <Option>Granatowy</Option>
-            <Option>Niebieski</Option>
-            <Option>Szary</Option>
-            <Option>Biały</Option>
-            <Option>Bordowy</Option>
+            <Option value='black'>Czarny</Option>
+            <Option value='darkblue'>Granatowy</Option>
+            <Option value='blue'>Niebieski</Option>
+            <Option value='grey'>Szary</Option>
+            <Option value='white'>Biały</Option>
+            <Option value='darkred'>Bordowy</Option>
           </Select>
           <Select name='size' onChange={handleFilters}>
             <Option disabled>Rozmiar</Option>
