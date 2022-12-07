@@ -6,6 +6,11 @@ import { Newsletter } from '../components/Newsletter';
 import { Footer } from '../components/Footer';
 import { Add, Remove } from '@mui/icons-material';
 import { mobile, tablet } from '../responsive';
+import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { url } from '../config/config';
+import { ProductInterface } from 'types';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -107,48 +112,61 @@ const Button = styled.button`
 `;
 
 export const Product = () => {
+  const location = useLocation();
+  const id = location.pathname.split('/')[2];
+  const [product, setProduct] = useState<ProductInterface | null>(null);
+  const [quantity, setQuantity] = useState<number>(1);
+  const [color, setColor] = useState<string>('');
+  const [size, setSize] = useState<string>('');
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(`${url}/products/${id}`);
+        setProduct(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, [id]);
+
+  const handleQuantity = (type: string) => {
+    type === 'dec' ? quantity > 1 && setQuantity(quantity - 1) : setQuantity(quantity + 1);
+  };
+
   return (
     <Container>
       <Announcement />
       <Navbar />
       <Wrapper>
         <ImgContainer>
-          <Image src='https://images.unsplash.com/photo-1593030103066-0093718efeb9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80' />
+          <Image src={product?.img} />
         </ImgContainer>
         <InfoContainer>
-          <Title>Garnitur Gustavo</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque blanditiis consequatur
-            culpa, dolor eum labore laudantium, modi necessitatibus pariatur quibusdam quidem, vero
-            voluptatibus. Ab at in nesciunt praesentium, quos recusandae. Lorem ipsum dolor sit
-            amet, consectetur adipisicing elit. Aliquam consectetur distinctio dolorum earum totam.
-            Atque cum doloribus et eum minus necessitatibus neque omnis praesentium, reiciendis
-            repellendus sapiente totam velit, voluptatum.
-          </Desc>
-          <Price>699,99 zł</Price>
+          <Title>{product?.title}</Title>
+          <Desc>{product?.desc}</Desc>
+          <Price>{product?.price} zł</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Kolor</FilterTitle>
-              <FilterColor color='blue' />
-              <FilterColor color='black' />
-              <FilterColor color='gray' />
+              {product?.color?.map((c) => (
+                <FilterColor color={c} key={c} onClick={() => setColor(c)} />
+              ))}
             </Filter>
             <Filter>
               <FilterTitle>Rozmiar</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>46/170</FilterSizeOption>
-                <FilterSizeOption>46/176</FilterSizeOption>
-                <FilterSizeOption>46/182</FilterSizeOption>
-                <FilterSizeOption>48/170</FilterSizeOption>
-                <FilterSizeOption>48/176</FilterSizeOption>
+              <FilterSize onChange={(e) => setSize(e.target.value)}>
+                {product?.size?.map((s) => (
+                  <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                ))}
               </FilterSize>
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove onClick={() => handleQuantity('dec')} />
+              <Amount>{quantity}</Amount>
+              <Add onClick={() => handleQuantity('inc')} />
             </AmountContainer>
             <Button>DODAJ DO KOSZYKA</Button>
           </AddContainer>
