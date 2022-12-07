@@ -116,6 +116,8 @@ export const Product = () => {
   const id = location.pathname.split('/')[2];
   const [product, setProduct] = useState<ProductInterface | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
+  const [color, setColor] = useState<string>('');
+  const [size, setSize] = useState<string>('');
 
   useEffect(() => {
     (async () => {
@@ -148,12 +150,12 @@ export const Product = () => {
             <Filter>
               <FilterTitle>Kolor</FilterTitle>
               {product?.color?.map((c) => (
-                <FilterColor color={c} key={c} />
+                <FilterColor color={c} key={c} onClick={() => setColor(c)} />
               ))}
             </Filter>
             <Filter>
               <FilterTitle>Rozmiar</FilterTitle>
-              <FilterSize>
+              <FilterSize onChange={(e) => setSize(e.target.value)}>
                 {product?.size?.map((s) => (
                   <FilterSizeOption key={s}>{s}</FilterSizeOption>
                 ))}
