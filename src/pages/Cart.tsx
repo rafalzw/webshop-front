@@ -5,6 +5,8 @@ import { Navbar } from '../components/Navbar';
 import styled from 'styled-components';
 import { Add, Remove } from '@mui/icons-material';
 import { mobile, tablet } from '../responsive';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 interface TopButtonProps {
   value?: string;
@@ -154,6 +156,8 @@ const Button = styled.button`
 `;
 
 export const Cart = () => {
+  const cart = useSelector((state: RootState) => state.cart);
+
   return (
     <Container>
       <Announcement />
@@ -170,63 +174,43 @@ export const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src='https://images.unsplash.com/photo-1593030103066-0093718efeb9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80' />
-                <Details>
-                  <ProductName>
-                    <b>Produkt: </b>Garnitur Gustavo
-                  </ProductName>
-                  <ProductId>
-                    <b>ID: </b>125488471121
-                  </ProductId>
-                  <ProductColor color='darkblue'></ProductColor>
-                  <ProductSize>
-                    <b>Rozmiar: </b>48/176
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>599,00 zł</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {cart.products.map((product) => (
+              <Product key={product._id}>
+                <ProductDetail>
+                  <Image src={product.img} />
+                  <Details>
+                    <ProductName>
+                      <b>Produkt: </b>
+                      {product.title}
+                    </ProductName>
+                    <ProductId>
+                      <b>ID: </b>
+                      {product._id}
+                    </ProductId>
+                    <ProductColor color={product.color}></ProductColor>
+                    <ProductSize>
+                      <b>Rozmiar: </b>
+                      {product.size}
+                    </ProductSize>
+                  </Details>
+                </ProductDetail>
+                <PriceDetail>
+                  <ProductAmountContainer>
+                    <Add />
+                    <ProductAmount>{product.quantity}</ProductAmount>
+                    <Remove />
+                  </ProductAmountContainer>
+                  <ProductPrice>{product.price * product.quantity} zł</ProductPrice>
+                </PriceDetail>
+              </Product>
+            ))}
             <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src='https://static1.sklep.dastan.pl/pol_pl_Koszula-Slim-Fit-Due-Leaf-1756_1.png' />
-                <Details>
-                  <ProductName>
-                    <b>Produkt: </b>Garnitur Mariano
-                  </ProductName>
-                  <ProductId>
-                    <b>ID: </b>389788471121
-                  </ProductId>
-                  <ProductColor color='lightblue'></ProductColor>
-                  <ProductSize>
-                    <b>Rozmiar: </b>48/176
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>1</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>799,00 zł</ProductPrice>
-              </PriceDetail>
-            </Product>
           </Info>
           <Summary>
             <SummaryTitle>PODSUMOWANIE ZAMÓWIENIA</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Wartość zamówienia:</SummaryItemText>
-              <SummaryItemPrice>1398,00 zł</SummaryItemPrice>
+              <SummaryItemPrice>{cart.total} zł</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Koszt przesyłki:</SummaryItemText>
@@ -234,7 +218,7 @@ export const Cart = () => {
             </SummaryItem>
             <SummaryItem value='total'>
               <SummaryItemText>Do zapłaty:</SummaryItemText>
-              <SummaryItemPrice>1398,00 zł</SummaryItemPrice>
+              <SummaryItemPrice>{cart.total} zł</SummaryItemPrice>
             </SummaryItem>
             <Button>PRZEJDŹ DALEJ</Button>
           </Summary>

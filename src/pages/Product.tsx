@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { url } from '../config/config';
 import { ProductInterface } from 'types';
+import { addProduct, ProductInCart } from '../redux/cartRedux';
+import { useDispatch } from 'react-redux';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -118,6 +120,7 @@ export const Product = () => {
   const [quantity, setQuantity] = useState<number>(1);
   const [color, setColor] = useState<string>('');
   const [size, setSize] = useState<string>('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -132,6 +135,10 @@ export const Product = () => {
 
   const handleQuantity = (type: string) => {
     type === 'dec' ? quantity > 1 && setQuantity(quantity - 1) : setQuantity(quantity + 1);
+  };
+
+  const handleClick = () => {
+    dispatch(addProduct({ ...product, quantity, color, size } as ProductInCart));
   };
 
   return (
@@ -168,7 +175,7 @@ export const Product = () => {
               <Amount>{quantity}</Amount>
               <Add onClick={() => handleQuantity('inc')} />
             </AmountContainer>
-            <Button>DODAJ DO KOSZYKA</Button>
+            <Button onClick={handleClick}>DODAJ DO KOSZYKA</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>
