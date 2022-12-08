@@ -1,8 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ProductInterface } from 'types';
+
+export type ProductInCart = {
+  _id: string;
+  title: string;
+  desc: string;
+  img: string;
+  categories: string[];
+  size: string;
+  color: string;
+  price: number;
+  createdAt: Date;
+  updatedAt: Date;
+  quantity: number;
+};
 
 export interface CartState {
-  products: ProductInterface[];
+  products: ProductInCart[];
   quantity: number;
   total: number;
 }
@@ -17,7 +30,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addProduct: (state, action: PayloadAction<any>) => {
+    addProduct: (state, action: PayloadAction<ProductInCart>) => {
       state.quantity += 1;
       state.products.push(action.payload);
       state.total += action.payload.price * action.payload.quantity;

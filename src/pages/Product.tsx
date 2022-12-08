@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { url } from '../config/config';
 import { ProductInterface } from 'types';
-import { addProduct } from '../redux/cartRedux';
+import { addProduct, ProductInCart } from '../redux/cartRedux';
 import { useDispatch } from 'react-redux';
 
 const Container = styled.div``;
@@ -138,7 +138,7 @@ export const Product = () => {
   };
 
   const handleClick = () => {
-    dispatch(addProduct({ ...product, quantity, color, size }));
+    dispatch(addProduct({ ...product, quantity, color, size } as ProductInCart));
   };
 
   return (
