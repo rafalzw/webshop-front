@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { url } from '../config/config';
 import { stripeKey } from '../config/stripe';
@@ -80,8 +80,16 @@ interface Props {
 function Payment({ showPaymentModal, setShowPaymentModal }: Props) {
   const [clientSecret, setClientSecret] = useState('');
   const cart = useSelector((state: RootState) => state.cart);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   const stripePromise = loadStripe(stripeKey);
+
+  const closeModal = (e: React.MouseEvent) => {
+    console.log(modalRef.current);
+    if (modalRef.current === e.target) {
+      setShowPaymentModal(false);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -98,7 +106,7 @@ function Payment({ showPaymentModal, setShowPaymentModal }: Props) {
   return (
     <>
       {showPaymentModal ? (
-        <Background>
+        <Background ref={modalRef} onClick={closeModal}>
           <ModalWrapper>
             <ModalImg />
             <ModalContent>
