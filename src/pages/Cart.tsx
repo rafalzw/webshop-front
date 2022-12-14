@@ -8,6 +8,8 @@ import { mobile, tablet } from '../responsive';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import Payment from '../components/Payment';
 
 interface TopButtonProps {
   value?: string;
@@ -158,9 +160,15 @@ const Button = styled.button`
 
 export const Cart = () => {
   const cart = useSelector((state: RootState) => state.cart);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+
+  const openModal = () => {
+    setShowPaymentModal((prev) => !prev);
+  };
 
   return (
     <Container>
+      <Payment showPaymentModal={showPaymentModal} setShowPaymentModal={setShowPaymentModal} />
       <Announcement />
       <Navbar />
       <Wrapper>
@@ -221,9 +229,7 @@ export const Cart = () => {
               <SummaryItemText>Do zapłaty:</SummaryItemText>
               <SummaryItemPrice>{cart.total} zł</SummaryItemPrice>
             </SummaryItem>
-            <Link to='/payment'>
-              <Button>PRZEJDŹ DALEJ</Button>
-            </Link>
+            <Button onClick={openModal}>PRZEJDŹ DALEJ</Button>
           </Summary>
         </Bottom>
       </Wrapper>
