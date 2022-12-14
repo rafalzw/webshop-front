@@ -7,6 +7,7 @@ import { Add, Remove } from '@mui/icons-material';
 import { mobile, tablet } from '../responsive';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { Link } from 'react-router-dom';
 
 interface TopButtonProps {
   value?: string;
@@ -187,7 +188,7 @@ export const Cart = () => {
                       <b>ID: </b>
                       {product._id}
                     </ProductId>
-                    <ProductColor color={product.color}></ProductColor>
+                    <ProductColor color={product.color} />
                     <ProductSize>
                       <b>Rozmiar: </b>
                       {product.size}
@@ -220,7 +221,9 @@ export const Cart = () => {
               <SummaryItemText>Do zapłaty:</SummaryItemText>
               <SummaryItemPrice>{cart.total} zł</SummaryItemPrice>
             </SummaryItem>
-            <Button>PRZEJDŹ DALEJ</Button>
+            <Link to='/payment'>
+              <Button>PRZEJDŹ DALEJ</Button>
+            </Link>
           </Summary>
         </Bottom>
       </Wrapper>
