@@ -23,9 +23,10 @@ const Background = styled.div`
 const ModalWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 900px;
-  width: 80%;
-  height: 80%;
+  min-height: 800px;
+  min-width: 600px;
+  width: 60%;
+  height: 60%;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: #fff;
   color: #000;
@@ -85,7 +86,6 @@ function Payment({ showPaymentModal, setShowPaymentModal }: Props) {
   const stripePromise = loadStripe(stripeKey);
 
   const closeModal = (e: React.MouseEvent) => {
-    console.log(modalRef.current);
     if (modalRef.current === e.target) {
       setShowPaymentModal(false);
     }
