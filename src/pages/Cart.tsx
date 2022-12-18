@@ -7,9 +7,7 @@ import { Add, Remove } from '@mui/icons-material';
 import { mobile, tablet } from '../responsive';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import Payment from '../components/Payment';
+import { PayButton } from '../components/PayButton';
 
 interface TopButtonProps {
   value?: string;
@@ -144,31 +142,12 @@ const SummaryItem = styled.div`
 `;
 const SummaryItemText = styled.span``;
 const SummaryItemPrice = styled.span``;
-const Button = styled.button`
-  width: 100%;
-  padding: 12px;
-  border: none;
-  background-color: #000;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.5s ease;
-  &:hover {
-    background-color: #404040;
-  }
-`;
 
 export const Cart = () => {
   const cart = useSelector((state: RootState) => state.cart);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-
-  const openModal = () => {
-    setShowPaymentModal((prev) => !prev);
-  };
 
   return (
     <Container>
-      <Payment showPaymentModal={showPaymentModal} setShowPaymentModal={setShowPaymentModal} />
       <Announcement />
       <Navbar />
       <Wrapper>
@@ -229,7 +208,7 @@ export const Cart = () => {
               <SummaryItemText>Do zapłaty:</SummaryItemText>
               <SummaryItemPrice>{cart.total} zł</SummaryItemPrice>
             </SummaryItem>
-            <Button onClick={openModal}>PRZEJDŹ DALEJ</Button>
+            <PayButton products={cart.products} />
           </Summary>
         </Bottom>
       </Wrapper>
