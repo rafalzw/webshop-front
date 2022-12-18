@@ -7,6 +7,7 @@ import { Add, Remove } from '@mui/icons-material';
 import { mobile, tablet } from '../responsive';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { PayButton } from '../components/PayButton';
 
 interface TopButtonProps {
   value?: string;
@@ -141,19 +142,6 @@ const SummaryItem = styled.div`
 `;
 const SummaryItemText = styled.span``;
 const SummaryItemPrice = styled.span``;
-const Button = styled.button`
-  width: 100%;
-  padding: 12px;
-  border: none;
-  background-color: #000;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.5s ease;
-  &:hover {
-    background-color: #404040;
-  }
-`;
 
 export const Cart = () => {
   const cart = useSelector((state: RootState) => state.cart);
@@ -187,7 +175,7 @@ export const Cart = () => {
                       <b>ID: </b>
                       {product._id}
                     </ProductId>
-                    <ProductColor color={product.color}></ProductColor>
+                    <ProductColor color={product.color} />
                     <ProductSize>
                       <b>Rozmiar: </b>
                       {product.size}
@@ -220,7 +208,7 @@ export const Cart = () => {
               <SummaryItemText>Do zapłaty:</SummaryItemText>
               <SummaryItemPrice>{cart.total} zł</SummaryItemPrice>
             </SummaryItem>
-            <Button>PRZEJDŹ DALEJ</Button>
+            <PayButton products={cart.products} />
           </Summary>
         </Bottom>
       </Wrapper>
