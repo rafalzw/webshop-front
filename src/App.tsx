@@ -9,7 +9,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { CheckoutSuccess } from './pages/CheckoutSuccess';
 
 function App() {
-  const user = true;
+  const user = false;
   return (
     <BrowserRouter>
       <Routes>

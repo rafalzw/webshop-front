@@ -1,6 +1,9 @@
 import * as React from 'react';
+import { FormEvent, useState } from 'react';
+import { login } from '../redux/apiCalls';
 import styled from 'styled-components';
 import { mobile, tablet } from '../responsive';
+import { useDispatch } from 'react-redux';
 
 const Container = styled.div`
   width: 100vw;
@@ -62,14 +65,27 @@ const Link = styled.a`
 `;
 
 export const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassowrd] = useState('');
+  const dispatch = useDispatch();
+
+  const handleLogin = (e: FormEvent) => {
+    e.preventDefault();
+    login(dispatch, { username, password });
+  };
+
   return (
     <Container>
       <Wrapper>
         <Title>LOGOWANIE</Title>
         <Form>
-          <Input placeholder='Nazwa użytkownika' />
-          <Input placeholder='Hasło' />
-          <Button>ZALOGUJ</Button>
+          <Input placeholder='Nazwa użytkownika' onChange={(e) => setUsername(e.target.value)} />
+          <Input
+            type='password'
+            placeholder='Hasło'
+            onChange={(e) => setPassowrd(e.target.value)}
+          />
+          <Button onClick={handleLogin}>ZALOGUJ</Button>
           <Link>NIE PAMIĘTASZ HASŁA?</Link>
           <Link>ZAREJESTRUJ SIĘ</Link>
         </Form>
