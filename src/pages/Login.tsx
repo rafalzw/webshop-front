@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { FormEvent, useState } from 'react';
-import { login } from '../redux/apiCalls';
+import { FormEvent, useEffect, useState } from 'react';
+import { checkLogin, login } from '../redux/apiCalls';
 import styled from 'styled-components';
 import { mobile, tablet } from '../responsive';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 const Container = styled.div`
   width: 100vw;
@@ -52,6 +53,10 @@ const Button = styled.button`
   cursor: pointer;
   margin: 20px 0 10px 0;
   transition: background-color 0.5s ease;
+  &:disabled {
+    color: #d3d3d3;
+    cursor: not-allowed;
+  }
   &:hover {
     background-color: #404040;
   }
@@ -64,14 +69,31 @@ const Link = styled.a`
   cursor: pointer;
 `;
 
+const Error = styled.span`
+  color: darkred;
+`;
+
 export const Login = () => {
   const [username, setUsername] = useState('');
-  const [password, setPassowrd] = useState('');
+  const [password, setPassword] = useState('');
+  const { loading, error } = useSelector((state: RootState) => state.user);
+  const [isFetching, setIsFetching] = useState(true);
   const dispatch = useDispatch();
 
-  const handleLogin = (e: FormEvent) => {
+  useEffect(() => {
+    (async () => {
+      await checkLogin(dispatch);
+      setIsFetching(false);
+    })();
+  }, []);
+
+  if (isFetching) {
+    return null;
+  }
+
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-    login(dispatch, { username, password });
+    await login(dispatch, { username, password });
   };
 
   return (
@@ -83,9 +105,12 @@ export const Login = () => {
           <Input
             type='password'
             placeholder='Hasło'
-            onChange={(e) => setPassowrd(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          <Button onClick={handleLogin}>ZALOGUJ</Button>
+          <Button onClick={handleLogin} disabled={loading}>
+            ZALOGUJ
+          </Button>
+          {error && <Error>Niepoprawna Nazwa użytkownika lub Hasło. Spóbuj ponownie.</Error>}
           <Link>NIE PAMIĘTASZ HASŁA?</Link>
           <Link>ZAREJESTRUJ SIĘ</Link>
         </Form>

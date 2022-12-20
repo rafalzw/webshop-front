@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import { Search, ShoppingCartOutlined } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import { mobile } from '../responsive';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { checkLogin } from '../redux/apiCalls';
 
 const Container = styled.div`
   height: 60px;
@@ -59,7 +61,21 @@ const Menuitem = styled.div`
 `;
 
 export const Navbar = () => {
+  const [isFetching, setIsFetching] = useState(true);
   const quantity = useSelector((state: RootState) => state.cart.quantity);
+  const { user } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      await checkLogin(dispatch);
+      setIsFetching(false);
+    })();
+  }, []);
+
+  if (isFetching) {
+    return null;
+  }
 
   return (
     <Container>
@@ -74,8 +90,14 @@ export const Navbar = () => {
           <Logo>GARNIAK4YOU</Logo>
         </Center>
         <Right>
-          <Menuitem>REJESTRACJA</Menuitem>
-          <Menuitem>ZALOGUJ</Menuitem>
+          {user ? (
+            <Menuitem>WYLOGUJ</Menuitem>
+          ) : (
+            <>
+              <Menuitem>REJESTRACJA</Menuitem>
+              <Menuitem>ZALOGUJ</Menuitem>
+            </>
+          )}
           <Link to='/cart'>
             <Menuitem>
               <Badge badgeContent={quantity} color='primary'>
