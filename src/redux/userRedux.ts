@@ -7,8 +7,8 @@ export interface UserState {
   error: boolean;
 }
 
-const initialState: any = {
-  currentUser: null,
+const initialState: UserState = {
+  user: null,
   loading: false,
   error: false,
 };
@@ -20,10 +20,10 @@ export const userRedux = createSlice({
     loginStart: (state) => {
       state.loading = true;
     },
-    loginSuccess: (state, action: PayloadAction<any>) => {
+    loginSuccess: (state, action: PayloadAction<UserInterface>) => {
       state.loading = false;
       state.error = false;
-      state.user = action.payload;
+      state.user = state.user = action.payload;
     },
     loginFail: (state) => {
       state.loading = false;
@@ -32,9 +32,12 @@ export const userRedux = createSlice({
     logout: (state) => {
       return initialState;
     },
+    check: (state, action: PayloadAction<UserInterface | null>) => {
+      state.user = state.user = action.payload;
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFail, logout } = userRedux.actions;
+export const { loginStart, loginSuccess, loginFail, logout, check } = userRedux.actions;
 
 export default userRedux.reducer;
