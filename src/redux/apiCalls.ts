@@ -1,4 +1,4 @@
-import { loginFail, loginStart, loginSuccess, check } from './userRedux';
+import { userStart, userSuccess, userFail, userLogout, userCheck } from './userRedux';
 import { url } from '../config/config';
 import axios from 'axios';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
@@ -9,22 +9,22 @@ type UserLogin = {
 };
 
 export const login = async (dispatch: Dispatch<AnyAction>, user: UserLogin) => {
-  dispatch(loginStart());
+  dispatch(userStart());
   try {
     const res = await axios.post(`${url}/auth/login`, user, {
       withCredentials: true,
     });
-    dispatch(loginSuccess(res.data));
+    dispatch(userSuccess(res.data));
   } catch (err) {
-    dispatch(loginFail());
+    dispatch(userFail());
   }
 };
 
 export const checkLogin = async (dispatch: Dispatch<AnyAction>) => {
   try {
     const res = await axios.get(`${url}/auth/check`, { withCredentials: true });
-    dispatch(check(res.data));
+    dispatch(userCheck(res.data));
   } catch {
-    dispatch(check(null));
+    dispatch(userCheck(null));
   }
 };

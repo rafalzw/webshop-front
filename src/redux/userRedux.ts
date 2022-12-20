@@ -17,27 +17,27 @@ export const userRedux = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    loginStart: (state) => {
+    userStart: (state) => {
       state.loading = true;
     },
-    loginSuccess: (state, action: PayloadAction<UserInterface>) => {
+    userSuccess: (state, action: PayloadAction<UserInterface>) => {
       state.loading = false;
       state.error = false;
       state.user = state.user = action.payload;
     },
-    loginFail: (state) => {
+    userFail: (state) => {
       state.loading = false;
       state.error = true;
     },
-    logout: (state) => {
+    userLogout: (state) => {
       return initialState;
     },
-    check: (state, action: PayloadAction<UserInterface | null>) => {
+    userCheck: (state, action: PayloadAction<UserInterface | null>) => {
       state.user = state.user = action.payload;
     },
   },
 });
 
-export const { loginStart, loginSuccess, loginFail, logout, check } = userRedux.actions;
+export const { userStart, userSuccess, userFail, userLogout, userCheck } = userRedux.actions;
 
 export default userRedux.reducer;
