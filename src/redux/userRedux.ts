@@ -20,10 +20,14 @@ export const userRedux = createSlice({
     userStart: (state) => {
       state.loading = true;
     },
-    userSuccess: (state, action: PayloadAction<UserInterface>) => {
+    userLoginSuccess: (state, action: PayloadAction<UserInterface>) => {
       state.loading = false;
       state.error = false;
       state.user = state.user = action.payload;
+    },
+    userSuccess: (state) => {
+      state.loading = false;
+      state.error = false;
     },
     userFail: (state) => {
       state.loading = false;
@@ -38,6 +42,7 @@ export const userRedux = createSlice({
   },
 });
 
-export const { userStart, userSuccess, userFail, userLogout, userCheck } = userRedux.actions;
+export const { userStart, userLoginSuccess, userSuccess, userFail, userLogout, userCheck } =
+  userRedux.actions;
 
 export default userRedux.reducer;

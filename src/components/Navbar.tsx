@@ -5,9 +5,9 @@ import { Badge } from '@mui/material';
 import { mobile } from '../responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { checkLogin } from '../redux/apiCalls';
+import { checkLogin, logout } from '../redux/apiCalls';
 
 const Container = styled.div`
   height: 60px;
@@ -77,6 +77,10 @@ export const Navbar = () => {
     return null;
   }
 
+  const handleLogout = async () => {
+    await logout(dispatch);
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -91,11 +95,15 @@ export const Navbar = () => {
         </Center>
         <Right>
           {user ? (
-            <Menuitem>WYLOGUJ</Menuitem>
+            <Menuitem onClick={handleLogout}>WYLOGUJ</Menuitem>
           ) : (
             <>
-              <Menuitem>REJESTRACJA</Menuitem>
-              <Menuitem>ZALOGUJ</Menuitem>
+              <Menuitem>
+                <NavLink to='/register'>REJESTRACJA</NavLink>
+              </Menuitem>
+              <Menuitem>
+                <NavLink to='/login'>ZALOGUJ</NavLink>
+              </Menuitem>
             </>
           )}
           <Link to='/cart'>

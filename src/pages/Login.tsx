@@ -91,7 +91,7 @@ export const Login = () => {
     return null;
   }
 
-  const handleLogin = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     await login(dispatch, { username, password });
   };
@@ -107,7 +107,7 @@ export const Login = () => {
             placeholder='Hasło'
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button onClick={handleLogin} disabled={loading}>
+          <Button onClick={handleSubmit} disabled={loading}>
             ZALOGUJ
           </Button>
           {error && <Error>Niepoprawna Nazwa użytkownika lub Hasło. Spóbuj ponownie.</Error>}
