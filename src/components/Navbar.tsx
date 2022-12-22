@@ -45,6 +45,7 @@ const Center = styled.div`
 `;
 const Logo = styled.h1`
   font-weight: bold;
+  text-decoration: none;
 `;
 const Right = styled.div`
   display: flex;
@@ -58,6 +59,19 @@ const Menuitem = styled.div`
   margin-left: 25px;
   cursor: pointer;
   ${mobile({ fontSize: '12px', marginLeft: '10px' })}
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
 `;
 
 export const Navbar = () => {
@@ -91,7 +105,9 @@ export const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>GARNIAK4YOU</Logo>
+          <Logo>
+            <StyledLink to='/'>GARNIAK4YOU</StyledLink>
+          </Logo>
         </Center>
         <Right>
           {user ? (
@@ -99,10 +115,10 @@ export const Navbar = () => {
           ) : (
             <>
               <Menuitem>
-                <NavLink to='/register'>REJESTRACJA</NavLink>
+                <StyledLink to='/register'>REJESTRACJA</StyledLink>
               </Menuitem>
               <Menuitem>
-                <NavLink to='/login'>ZALOGUJ</NavLink>
+                <StyledLink to='/login'>ZALOGUJ</StyledLink>
               </Menuitem>
             </>
           )}
