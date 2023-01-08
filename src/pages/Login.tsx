@@ -1,6 +1,10 @@
 import * as React from 'react';
+import { FormEvent, useEffect, useState } from 'react';
+import { checkLogin, login } from '../redux/apiCalls';
 import styled from 'styled-components';
 import { mobile, tablet } from '../responsive';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 const Container = styled.div`
   width: 100vw;
@@ -49,6 +53,10 @@ const Button = styled.button`
   cursor: pointer;
   margin: 20px 0 10px 0;
   transition: background-color 0.5s ease;
+  &:disabled {
+    color: #d3d3d3;
+    cursor: not-allowed;
+  }
   &:hover {
     background-color: #404040;
   }
@@ -61,15 +69,48 @@ const Link = styled.a`
   cursor: pointer;
 `;
 
+const Error = styled.span`
+  color: darkred;
+`;
+
 export const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const { loading, error } = useSelector((state: RootState) => state.user);
+  const [isFetching, setIsFetching] = useState(true);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      await checkLogin(dispatch);
+      setIsFetching(false);
+    })();
+  }, []);
+
+  if (isFetching) {
+    return null;
+  }
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    await login(dispatch, { username, password });
+  };
+
   return (
     <Container>
       <Wrapper>
         <Title>LOGOWANIE</Title>
         <Form>
-          <Input placeholder='Nazwa użytkownika' />
-          <Input placeholder='Hasło' />
-          <Button>ZALOGUJ</Button>
+          <Input placeholder='Nazwa użytkownika' onChange={(e) => setUsername(e.target.value)} />
+          <Input
+            type='password'
+            placeholder='Hasło'
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button onClick={handleSubmit} disabled={loading}>
+            ZALOGUJ
+          </Button>
+          {error && <Error>Niepoprawna Nazwa użytkownika lub Hasło. Spóbuj ponownie.</Error>}
           <Link>NIE PAMIĘTASZ HASŁA?</Link>
           <Link>ZAREJESTRUJ SIĘ</Link>
         </Form>

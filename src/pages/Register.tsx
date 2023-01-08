@@ -1,6 +1,10 @@
 import * as React from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { mobile, tablet } from '../responsive';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { checkLogin, register } from '../redux/apiCalls';
 
 const Container = styled.div`
   width: 100vw;
@@ -52,19 +56,67 @@ const Button = styled.button`
   }
 `;
 
+const Error = styled.span`
+  color: darkred;
+`;
+
 export const Register = () => {
+  const { loading, error } = useSelector((state: RootState) => state.user);
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [isFetching, setIsFetching] = useState(true);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      await checkLogin(dispatch);
+      setIsFetching(false);
+    })();
+  }, []);
+
+  if (isFetching) {
+    return null;
+  }
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    await register(dispatch, { firstName, lastName, username, email, password });
+  };
+
   return (
     <Container>
       <Wrapper>
         <Title>UTWÓRZ NOWE KONTO</Title>
         <Form>
-          <Input placeholder='Imię' />
-          <Input placeholder='Nazwisko' />
-          <Input placeholder='Nazwa użytkownika' />
-          <Input placeholder='Email' />
-          <Input placeholder='Hasło' />
+          <Input placeholder='Imię' required onChange={(e) => setFirstName(e.target.value)} />
+          <Input placeholder='Nazwisko' required onChange={(e) => setLastName(e.target.value)} />
+          <Input
+            placeholder='Nazwa użytkownika'
+            required
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <Input
+            placeholder='Email'
+            required
+            type='email'
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            placeholder='Hasło'
+            required
+            type='password'
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <Input placeholder='Potwierdź hasło' />
-          <Button>ZAREJESTRUJ</Button>
+          <Button onClick={handleSubmit} disabled={loading}>
+            ZAREJESTRUJ
+          </Button>
+          {error && <Error>Coś poszło nie tak. Spóbuj ponownie.</Error>}
         </Form>
       </Wrapper>
     </Container>

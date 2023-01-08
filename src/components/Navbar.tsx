@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import { Search, ShoppingCartOutlined } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import { mobile } from '../responsive';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { checkLogin, logout } from '../redux/apiCalls';
 
 const Container = styled.div`
   height: 60px;
@@ -43,6 +45,7 @@ const Center = styled.div`
 `;
 const Logo = styled.h1`
   font-weight: bold;
+  text-decoration: none;
 `;
 const Right = styled.div`
   display: flex;
@@ -58,8 +61,39 @@ const Menuitem = styled.div`
   ${mobile({ fontSize: '12px', marginLeft: '10px' })}
 `;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
+`;
+
 export const Navbar = () => {
+  const [isFetching, setIsFetching] = useState(true);
   const quantity = useSelector((state: RootState) => state.cart.quantity);
+  const { user } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      await checkLogin(dispatch);
+      setIsFetching(false);
+    })();
+  }, []);
+
+  if (isFetching) {
+    return null;
+  }
+
+  const handleLogout = async () => {
+    await logout(dispatch);
+  };
 
   return (
     <Container>
@@ -71,11 +105,23 @@ export const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>GARNIAK4YOU</Logo>
+          <Logo>
+            <StyledLink to='/'>GARNIAK4YOU</StyledLink>
+          </Logo>
         </Center>
         <Right>
-          <Menuitem>REJESTRACJA</Menuitem>
-          <Menuitem>ZALOGUJ</Menuitem>
+          {user ? (
+            <Menuitem onClick={handleLogout}>WYLOGUJ</Menuitem>
+          ) : (
+            <>
+              <Menuitem>
+                <StyledLink to='/register'>REJESTRACJA</StyledLink>
+              </Menuitem>
+              <Menuitem>
+                <StyledLink to='/login'>ZALOGUJ</StyledLink>
+              </Menuitem>
+            </>
+          )}
           <Link to='/cart'>
             <Menuitem>
               <Badge badgeContent={quantity} color='primary'>
