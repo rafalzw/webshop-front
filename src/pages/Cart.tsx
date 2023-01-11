@@ -8,6 +8,9 @@ import { mobile, tablet } from '../responsive';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { PayButton } from '../components/PayButton';
+import { CheckoutSuccess } from './CheckoutSuccess';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 interface TopButtonProps {
   value?: string;
@@ -145,9 +148,19 @@ const SummaryItemPrice = styled.span``;
 
 export const Cart = () => {
   const cart = useSelector((state: RootState) => state.cart);
+  const [showOrderModal, setShowOrderModal] = useState(false);
+  const [searchParams] = useSearchParams();
+  const sessionId = searchParams.get('session_id');
+
+  useEffect(() => {
+    sessionId && setShowOrderModal(true);
+  }, []);
 
   return (
     <Container>
+      {showOrderModal && (
+        <CheckoutSuccess showOrderModal={showOrderModal} setShowOrderModal={setShowOrderModal} />
+      )}
       <Announcement />
       <Navbar />
       <Wrapper>
