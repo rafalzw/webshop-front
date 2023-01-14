@@ -39,7 +39,7 @@ export const PayButton = ({ products }: Props) => {
 
   return (
     <>
-      <Button disabled={isProcessing} onClick={() => handleCheckout()}>
+      <Button disabled={isProcessing || products.length === 0} onClick={() => handleCheckout()}>
         <span id='button-text'>{isProcessing ? 'PRZETWARZANIE... ' : 'PRZEJDŹ DALEJ'}</span>
       </Button>
     </>

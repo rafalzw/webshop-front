@@ -5,9 +5,13 @@ import { Navbar } from '../components/Navbar';
 import styled from 'styled-components';
 import { Add, Remove } from '@mui/icons-material';
 import { mobile, tablet } from '../responsive';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/store';
 import { PayButton } from '../components/PayButton';
+import { CheckoutSuccess } from './CheckoutSuccess';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { incQuantity, decQuantity } from '../redux/cartRedux';
 
 interface TopButtonProps {
   value?: string;
@@ -145,9 +149,24 @@ const SummaryItemPrice = styled.span``;
 
 export const Cart = () => {
   const cart = useSelector((state: RootState) => state.cart);
+  const [showOrderModal, setShowOrderModal] = useState(false);
+  const [searchParams] = useSearchParams();
+  const sessionId = searchParams.get('session_id');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    sessionId && setShowOrderModal(true);
+  }, []);
+
+  const handleQuantity = (id: string, type: string) => {
+    type === 'inc' ? dispatch(incQuantity(id)) : dispatch(decQuantity(id));
+  };
 
   return (
     <Container>
+      {showOrderModal && (
+        <CheckoutSuccess showOrderModal={showOrderModal} setShowOrderModal={setShowOrderModal} />
+      )}
       <Announcement />
       <Navbar />
       <Wrapper>
@@ -155,7 +174,7 @@ export const Cart = () => {
         <Top>
           <TopButton>KONTYNUUJ ZAKUPY</TopButton>
           <TopTexts>
-            <TopText>Artykuły(2)</TopText>
+            <TopText>Artykuły({cart.products.length})</TopText>
             <TopText>Lista artykułów</TopText>
           </TopTexts>
           <TopButton value='filled'>PRZEJDŹ DO KASY</TopButton>
@@ -184,9 +203,15 @@ export const Cart = () => {
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <Add />
+                    <Remove
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => handleQuantity(product._id, 'dec')}
+                    />
                     <ProductAmount>{product.quantity}</ProductAmount>
-                    <Remove />
+                    <Add
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => handleQuantity(product._id, 'inc')}
+                    />
                   </ProductAmountContainer>
                   <ProductPrice>{product.price * product.quantity} zł</ProductPrice>
                 </PriceDetail>
@@ -198,7 +223,7 @@ export const Cart = () => {
             <SummaryTitle>PODSUMOWANIE ZAMÓWIENIA</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Wartość zamówienia:</SummaryItemText>
-              <SummaryItemPrice>{cart.total} zł</SummaryItemPrice>
+              <SummaryItemPrice>{cart.total.toFixed(2)} zł</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Koszt przesyłki:</SummaryItemText>
@@ -206,7 +231,7 @@ export const Cart = () => {
             </SummaryItem>
             <SummaryItem value='total'>
               <SummaryItemText>Do zapłaty:</SummaryItemText>
-              <SummaryItemPrice>{cart.total} zł</SummaryItemPrice>
+              <SummaryItemPrice>{cart.total.toFixed(2)} zł</SummaryItemPrice>
             </SummaryItem>
             <PayButton products={cart.products} />
           </Summary>
