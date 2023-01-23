@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { UserData } from './UserData';
+import { Orders } from './Orders';
 
 interface Props {
   active: boolean;
@@ -24,10 +26,12 @@ const Tab = styled.button`
 const ButtonGroup = styled.div`
   display: flex;
 `;
+
 const types = ['Edytuj dane', 'Historia Zamówień'];
 
 export const TabGroup = () => {
   const [active, setActive] = useState(types[0]);
+
   return (
     <>
       <ButtonGroup>
@@ -37,8 +41,7 @@ export const TabGroup = () => {
           </Tab>
         ))}
       </ButtonGroup>
-      <p />
-      <p> Komponent: {active} </p>
+      {active === 'Edytuj dane' ? <UserData /> : <Orders />}
     </>
   );
 };

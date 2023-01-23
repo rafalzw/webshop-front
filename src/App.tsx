@@ -20,7 +20,7 @@ function App() {
         <Route path='/products/:category' element={<ProductList />} />
         <Route path='/product/:id' element={<Product />} />
         <Route path='/cart' element={<Cart />} />
-        <Route path='/account' element={<UserAccount />} />
+        <Route path='/account' element={user ? <UserAccount /> : <Login />} />
         <Route path='/' element={<Home />} />
       </Routes>
     </BrowserRouter>
