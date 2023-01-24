@@ -55,10 +55,15 @@ const Right = styled.div`
   ${mobile({ justifyContent: 'space-between', height: '100%' })}
 `;
 const Menuitem = styled.div`
-  font-size: 14px;
+  color: #000;
+  font-size: 16px;
   margin-left: 10px;
   cursor: pointer;
+  transition: color 0.5s ease;
   ${mobile({ fontSize: '12px' })}
+  &:hover {
+    color: #404040;
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -75,9 +80,9 @@ const StyledLink = styled(Link)`
 `;
 
 export const Navbar = () => {
+  const { user } = useSelector((state: RootState) => state.user);
   const [isFetching, setIsFetching] = useState(true);
   const quantity = useSelector((state: RootState) => state.cart.quantity);
-  const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {

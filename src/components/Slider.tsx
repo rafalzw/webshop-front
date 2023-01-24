@@ -85,7 +85,7 @@ const Button = styled.button`
   font-size: 20px;
   background-color: transparent;
   cursor: pointer;
-  transition: background-color 0.5s ease;
+  transition: transform 0.3s ease;
   &:hover {
     transform: scale(1.1);
   }
