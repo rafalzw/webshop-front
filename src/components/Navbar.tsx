@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Search, ShoppingCartOutlined } from '@mui/icons-material';
+import { Search, ShoppingCartOutlined, AccountBoxOutlined } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import { mobile } from '../responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { checkLogin, logout } from '../redux/apiCalls';
 
@@ -56,9 +56,9 @@ const Right = styled.div`
 `;
 const Menuitem = styled.div`
   font-size: 14px;
-  margin-left: 25px;
+  margin-left: 10px;
   cursor: pointer;
-  ${mobile({ fontSize: '12px', marginLeft: '10px' })}
+  ${mobile({ fontSize: '12px' })}
 `;
 
 const StyledLink = styled(Link)`
@@ -121,6 +121,13 @@ export const Navbar = () => {
                 <StyledLink to='/login'>ZALOGUJ</StyledLink>
               </Menuitem>
             </>
+          )}
+          {user && (
+            <Link to='/account'>
+              <Menuitem>
+                <AccountBoxOutlined />
+              </Menuitem>
+            </Link>
           )}
           <Link to='/cart'>
             <Menuitem>

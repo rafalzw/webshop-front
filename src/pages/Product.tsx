@@ -125,6 +125,7 @@ export const Product = () => {
   useEffect(() => {
     (async () => {
       try {
+        window.scrollTo(0, 0);
         const res = await axios.get(`${url}/products/${id}`);
         setProduct(res.data);
       } catch (err) {

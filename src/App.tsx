@@ -8,6 +8,7 @@ import { Cart } from './pages/Cart';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from './redux/store';
+import { UserAccount } from './pages/UserAccount';
 
 function App() {
   const { user } = useSelector((state: RootState) => state.user);
@@ -19,6 +20,7 @@ function App() {
         <Route path='/products/:category' element={<ProductList />} />
         <Route path='/product/:id' element={<Product />} />
         <Route path='/cart' element={<Cart />} />
+        <Route path='/account' element={user ? <UserAccount /> : <Login />} />
         <Route path='/' element={<Home />} />
       </Routes>
     </BrowserRouter>
