@@ -5,6 +5,7 @@ import { mobile, tablet } from '../responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { checkLogin, register } from '../redux/apiCalls';
+import { validateForm } from '../helpers/validateForm';
 
 const Container = styled.div`
   width: 100vw;
@@ -49,14 +50,14 @@ const Button = styled.button`
   background-color: #000;
   color: #fff;
   cursor: pointer;
-  margin-top: 20px;
+  margin: 20px 0 10px 0;
   transition: background-color 0.5s ease;
   &:hover {
     background-color: #404040;
   }
 `;
 
-const Error = styled.span`
+const FormMessage = styled.span`
   color: darkred;
 `;
 
@@ -68,6 +69,8 @@ export const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPass, setConfirmPass] = useState('');
+  const [invalid, setInvalid] = useState<null | string>(null);
 
   const [isFetching, setIsFetching] = useState(true);
   const dispatch = useDispatch();
@@ -85,6 +88,20 @@ export const Register = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    const resultError = validateForm({
+      username,
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPass,
+    });
+
+    if (resultError !== null) {
+      setInvalid(resultError);
+      return;
+    }
+
     await register(dispatch, { firstName, lastName, username, email, password });
   };
 
@@ -112,12 +129,18 @@ export const Register = () => {
             type='password'
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Input placeholder='Potwierdź hasło' />
+          <Input
+            placeholder='Potwierdź hasło'
+            required
+            type='password'
+            onChange={(e) => setConfirmPass(e.target.value)}
+          />
           <Button onClick={handleSubmit} disabled={loading}>
             ZAREJESTRUJ
           </Button>
-          {error && <Error>Coś poszło nie tak. Spóbuj ponownie.</Error>}
         </Form>
+        {invalid && <FormMessage>{invalid}</FormMessage>}
+        {error && <FormMessage>Coś poszło nie tak. Spóbuj ponownie.</FormMessage>}
       </Wrapper>
     </Container>
   );
