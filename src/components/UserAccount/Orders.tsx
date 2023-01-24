@@ -17,6 +17,8 @@ export const Table = styled.table`
   text-align: center;
   border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11),
+    0 4px 4px rgba(0, 0, 0, 0.11), 0 6px 8px rgba(0, 0, 0, 0.11), 0 8px 16px rgba(0, 0, 0, 0.11);
 `;
 
 export const THead = styled.thead`
@@ -33,6 +35,7 @@ export const TH = styled.th`
   text-transform: capitalize;
   font-weight: 600;
   font-size: 14px;
+  border: 1px solid #ccc;
 `;
 
 export const TBody = styled.tbody``;
