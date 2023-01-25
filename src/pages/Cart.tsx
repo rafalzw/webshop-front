@@ -10,7 +10,7 @@ import { RootState } from '../redux/store';
 import { PayButton } from '../components/PayButton';
 import { CheckoutSuccess } from './CheckoutSuccess';
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { incQuantity, decQuantity } from '../redux/cartRedux';
 
 interface TopButtonProps {
@@ -38,9 +38,10 @@ const Top = styled.div`
 `;
 
 const TopButton = styled.button<TopButtonProps>`
-  padding: 10px;
+  padding: 12px;
   font-weight: 600;
   cursor: pointer;
+  text-transform: uppercase;
   border: ${(props: TopButtonProps) => props.value === 'filled' && 'none'};
   background-color: ${(props: TopButtonProps) =>
     props.value === 'filled' ? 'black' : 'transparent'};
@@ -56,7 +57,6 @@ const TopTexts = styled.div`
 `;
 const TopText = styled.span`
   text-decoration: underline;
-  cursor: pointer;
   margin: 0 10px;
 `;
 const Bottom = styled.div`
@@ -147,25 +147,13 @@ const SummaryItem = styled.div`
 const SummaryItemText = styled.span``;
 const SummaryItemPrice = styled.span``;
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: inherit;
-
-  &:focus,
-  &:hover,
-  &:visited,
-  &:link,
-  &:active {
-    text-decoration: none;
-  }
-`;
-
 export const Cart = () => {
   const cart = useSelector((state: RootState) => state.cart);
   const [showOrderModal, setShowOrderModal] = useState(false);
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     sessionId && setShowOrderModal(true);
@@ -185,14 +173,14 @@ export const Cart = () => {
       <Wrapper>
         <Title>TWÓJ KOSZYK</Title>
         <Top>
-          <TopButton>
-            <StyledLink to='/products/'>KONTYNUUJ ZAKUPY</StyledLink>
-          </TopButton>
+          <TopButton onClick={() => navigate('/products/')}>kontynuuj zakupy</TopButton>
           <TopTexts>
             <TopText>Artykuły({cart.products.length})</TopText>
             <TopText>Lista artykułów</TopText>
           </TopTexts>
-          <TopButton value='filled'>PRZEJDŹ DO KASY</TopButton>
+          <TopButton onClick={() => navigate(-1)} value='filled'>
+            powrót
+          </TopButton>
         </Top>
         <Bottom>
           <Info>
@@ -228,7 +216,9 @@ export const Cart = () => {
                       onClick={() => handleQuantity(product._id, 'inc')}
                     />
                   </ProductAmountContainer>
-                  <ProductPrice>{product.price * product.quantity} zł</ProductPrice>
+                  <ProductPrice>
+                    {Number(product.price * product.quantity).toFixed(2)} zł
+                  </ProductPrice>
                 </PriceDetail>
               </Product>
             ))}
