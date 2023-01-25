@@ -19,12 +19,13 @@ type Filters = {
 };
 
 interface ProductsProps {
+  popular?: boolean;
   cat?: string;
   filters?: Filters;
   sort?: string;
 }
 
-export const Products = ({ cat = '', filters = {}, sort = '' }: ProductsProps) => {
+export const Products = ({ popular = false, cat = '', filters = {}, sort = '' }: ProductsProps) => {
   const [products, setProducts] = useState<ProductInterface[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<ProductInterface[]>([]);
 
@@ -66,9 +67,11 @@ export const Products = ({ cat = '', filters = {}, sort = '' }: ProductsProps) =
   return (
     <>
       <Container>
-        {cat
+        {popular
+          ? products.slice(0, 5).map((item) => <Product key={item._id} item={item} />)
+          : cat
           ? filteredProducts.map((item) => <Product key={item._id} item={item} />)
-          : products.slice(0, 6).map((item) => <Product key={item._id} item={item} />)}
+          : products.map((item) => <Product key={item._id} item={item} />)}
       </Container>
     </>
   );

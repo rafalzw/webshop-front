@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { FormEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import HomeIcon from '@mui/icons-material/Home';
 import { mobile, tablet } from '../responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
