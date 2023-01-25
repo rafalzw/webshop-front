@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { ShoppingCartOutlined, SearchOutlined, FavoriteBorderOutlined } from '@mui/icons-material';
+import { SearchOutlined, FavoriteBorderOutlined } from '@mui/icons-material';
 import { ProductInterface } from 'types';
 import { Link } from 'react-router-dom';
 
@@ -25,6 +25,7 @@ const Container = styled.div`
   min-width: 280px;
   height: 350px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: #f5f5f5;
@@ -34,15 +35,10 @@ const Container = styled.div`
     opacity: 1;
   }
 `;
-const Circle = styled.div`
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background-color: #fff;
-  position: absolute;
-`;
+
 const Image = styled.img`
   height: 75%;
+  margin-bottom: 10px;
   z-index: 2;
 `;
 
@@ -64,6 +60,14 @@ const Icon = styled.div`
   }
 `;
 
+const Title = styled.p`
+  font-size: 0.9rem;
+  padding: 5px;
+`;
+const Price = styled.p`
+  font-weight: 600;
+`;
+
 interface ProductProps {
   item: ProductInterface;
 }
@@ -71,12 +75,10 @@ interface ProductProps {
 export const Product = ({ item }: ProductProps) => {
   return (
     <Container>
-      <Circle />
       <Image src={item.img} />
+      <Title>{item.title}</Title>
+      <Price>{Number(item.price).toFixed(2)} zł</Price>
       <Info>
-        <Icon>
-          <ShoppingCartOutlined />
-        </Icon>
         <Icon>
           <Link to={`/product/${item._id}`}>
             <SearchOutlined />
