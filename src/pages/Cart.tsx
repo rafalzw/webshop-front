@@ -10,7 +10,7 @@ import { RootState } from '../redux/store';
 import { PayButton } from '../components/PayButton';
 import { CheckoutSuccess } from './CheckoutSuccess';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { incQuantity, decQuantity } from '../redux/cartRedux';
 
 interface TopButtonProps {
@@ -147,6 +147,19 @@ const SummaryItem = styled.div`
 const SummaryItemText = styled.span``;
 const SummaryItemPrice = styled.span``;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
+`;
+
 export const Cart = () => {
   const cart = useSelector((state: RootState) => state.cart);
   const [showOrderModal, setShowOrderModal] = useState(false);
@@ -172,7 +185,9 @@ export const Cart = () => {
       <Wrapper>
         <Title>TWÓJ KOSZYK</Title>
         <Top>
-          <TopButton>KONTYNUUJ ZAKUPY</TopButton>
+          <TopButton>
+            <StyledLink to='/products/'>KONTYNUUJ ZAKUPY</StyledLink>
+          </TopButton>
           <TopTexts>
             <TopText>Artykuły({cart.products.length})</TopText>
             <TopText>Lista artykułów</TopText>

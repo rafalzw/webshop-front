@@ -30,6 +30,7 @@ export const Products = ({ popular = false, cat = '', filters = {}, sort = '' }:
   const [filteredProducts, setFilteredProducts] = useState<ProductInterface[]>([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const getProducts = async () => {
       try {
         const res = await axios.get(cat ? `${url}/products?category=${cat}` : `${url}/products`);

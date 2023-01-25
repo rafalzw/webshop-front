@@ -128,19 +128,19 @@ export const Navbar = () => {
             </>
           )}
           {user && (
-            <Link to='/account'>
-              <Menuitem>
-                <AccountBoxOutlined />
-              </Menuitem>
-            </Link>
-          )}
-          <Link to='/cart'>
             <Menuitem>
+              <StyledLink to='/account'>
+                <AccountBoxOutlined />
+              </StyledLink>
+            </Menuitem>
+          )}
+          <Menuitem>
+            <StyledLink to='/cart'>
               <Badge badgeContent={quantity} color='primary'>
                 <ShoppingCartOutlined />
               </Badge>
-            </Menuitem>
-          </Link>
+            </StyledLink>
+          </Menuitem>
         </Right>
       </Wrapper>
     </Container>

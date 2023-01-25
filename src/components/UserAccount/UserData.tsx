@@ -93,8 +93,9 @@ export const UserData = () => {
       setError(resultError);
       return;
     }
+    setLoading(true);
     try {
-      const res = await axios.put(
+      await axios.put(
         `${url}/users`,
         { username, firstName, lastName, email, password },
         {
@@ -103,10 +104,7 @@ export const UserData = () => {
       );
       setError(null);
       setSuccess('Dane zostały zaktualizowane.');
-
-      setTimeout(() => {
-        window.location.replace('/');
-      }, 2000);
+      setLoading(false);
     } catch (err) {
       setError('Aktualizacja nie powiodła się, spróbuj ponownie...');
     }
@@ -191,7 +189,9 @@ export const UserData = () => {
             </>
             {error && <FormMessage color='red'>{error}</FormMessage>}
             {success && <FormMessage color='green'>{success}</FormMessage>}
-            <FormButton type='submit'>Zapisz</FormButton>
+            <FormButton disabled={loading} type='submit'>
+              Zapisz
+            </FormButton>
           </Form>
         )}
       </Wrapper>
