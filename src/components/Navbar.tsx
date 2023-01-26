@@ -13,6 +13,7 @@ import { RootState } from '../redux/store';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { checkLogin, logout } from '../redux/apiCalls';
+import { loadCart } from '../redux/cartRedux';
 
 const Container = styled.div`
   height: 70px;
@@ -115,6 +116,7 @@ const FavoriteIcon = styled(FavoriteBorderOutlined)`
 
 export const Navbar = () => {
   const { user } = useSelector((state: RootState) => state.user);
+  const cart = useSelector((state: RootState) => state.cart);
   const [isFetching, setIsFetching] = useState(true);
   const quantity = useSelector((state: RootState) => state.cart.quantity);
   const dispatch = useDispatch();
@@ -124,6 +126,7 @@ export const Navbar = () => {
     (async () => {
       await checkLogin(dispatch);
       setIsFetching(false);
+      dispatch(loadCart());
     })();
   }, []);
 
