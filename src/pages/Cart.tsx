@@ -46,7 +46,7 @@ const TopButton = styled.button<TopButtonProps>`
   background-color: ${(props: TopButtonProps) =>
     props.value === 'filled' ? 'black' : 'transparent'};
   color: ${(props: TopButtonProps) => props.value === 'filled' && 'white'};
-  transition: background-color 0.5s ease;
+  transition: background-color 0.4s ease;
   &:hover {
     background-color: ${(props: TopButtonProps) => (props.value === 'filled' ? '#404040' : '#eee')};
   }
