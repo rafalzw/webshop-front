@@ -4,6 +4,7 @@ import axios from 'axios';
 import { url } from '../config/config';
 import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const Background = styled.div`
   width: 100%;
@@ -74,10 +75,10 @@ interface Props {
 
 export const CheckoutSuccess = ({ showOrderModal, setShowOrderModal }: Props) => {
   const location = useLocation();
-  const navigate = useNavigate();
   const [orderId, setOrderId] = useState(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
-  const [isProcessing, setIsProcessing] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const closeModal = (e: MouseEvent) => {
     if (modalRef.current === e.target) {
@@ -105,7 +106,7 @@ export const CheckoutSuccess = ({ showOrderModal, setShowOrderModal }: Props) =>
         { method: 'post', withCredentials: true },
       );
       setOrderId(res.data._id);
-      setIsProcessing(false);
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -129,8 +130,8 @@ export const CheckoutSuccess = ({ showOrderModal, setShowOrderModal }: Props) =>
           <ModalWrapper>
             <ModalImg />
             <ModalContent>
-              {isProcessing ? (
-                <h1>PRZETWARZANIE...</h1>
+              {loading ? (
+                <ClipLoader />
               ) : (
                 <>
                   <h1>GARNIAK4YOU</h1>
