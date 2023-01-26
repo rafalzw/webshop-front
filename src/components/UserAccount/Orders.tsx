@@ -102,7 +102,7 @@ export const Orders = () => {
                     </p>
                   ))}
                 </TD>
-                <TD>{obj.amount} zł</TD>
+                <TD>{Number(obj.amount).toFixed(2)} zł</TD>
               </TBodyTR>
             ))}
           </TBody>

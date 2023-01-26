@@ -116,7 +116,6 @@ const FavoriteIcon = styled(FavoriteBorderOutlined)`
 
 export const Navbar = () => {
   const { user } = useSelector((state: RootState) => state.user);
-  const cart = useSelector((state: RootState) => state.cart);
   const [isFetching, setIsFetching] = useState(true);
   const quantity = useSelector((state: RootState) => state.cart.quantity);
   const dispatch = useDispatch();
