@@ -14,6 +14,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { checkLogin, logout } from '../redux/apiCalls';
 import { loadCart } from '../redux/cartRedux';
+import { loadFavorites } from '../redux/favoritesRedux';
 
 const Container = styled.div`
   height: 70px;
@@ -74,7 +75,7 @@ const Menuitem = styled.div`
   font-size: 16px;
   display: flex;
   align-items: center;
-  margin-left: 10px;
+  margin-left: 15px;
   cursor: pointer;
   transition: color 0.4s ease;
 
@@ -127,6 +128,7 @@ export const Navbar = () => {
       await checkLogin(dispatch);
       setIsFetching(false);
       dispatch(loadCart());
+      dispatch(loadFavorites());
     })();
   }, []);
 
