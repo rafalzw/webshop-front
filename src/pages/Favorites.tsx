@@ -1,11 +1,12 @@
-import * as React from 'react';
+import React from 'react';
+import styled from 'styled-components';
 import { Announcement } from '../components/Announcement';
 import { Footer } from '../components/Footer';
 import { Navbar } from '../components/Navbar';
-import styled from 'styled-components';
 import { mobile, tablet } from '../responsive';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -17,15 +18,19 @@ const Title = styled.h1`
   text-align: center;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const Button = styled.button`
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   border: none;
   padding: 10px 30px;
-  text-transform: uppercase;
   background-color: #000;
   color: #fff;
   cursor: pointer;
-  margin: 20px 20px 10px 0;
+  margin: 5px 20px 5px 0;
   transition: background-color 0.4s ease;
   &:hover {
     background-color: #404040;
@@ -58,10 +63,13 @@ const ProductDetail = styled.div`
 `;
 const Image = styled.img`
   width: 100px;
+  cursor: pointer;
 `;
 
-const ProductName = styled.div``;
-const ProductId = styled.div``;
+const ProductName = styled.div`
+  cursor: pointer;
+`;
+const ProductAddDate = styled.div``;
 
 const ProductPrice = styled.div`
   font-weight: 600;
@@ -77,6 +85,11 @@ const Hr = styled.hr`
 
 export const Favorites = () => {
   const favorites = useSelector((state: RootState) => state.favorites);
+  const navigate = useNavigate();
+
+  const handleClick = (id: string | undefined) => {
+    navigate(`/product/${id}`);
+  };
 
   return (
     <Container>
@@ -90,19 +103,24 @@ export const Favorites = () => {
             <>
               <Product key={product._id}>
                 <ProductDetail>
-                  <Image src={product.img} />
+                  <Image src={product.img} onClick={() => handleClick(product._id)} />
                 </ProductDetail>
                 <ProductDetail>
-                  <ProductName>{product.title}</ProductName>
+                  <ProductName onClick={() => handleClick(product._id)}>
+                    {product.title}
+                  </ProductName>
                 </ProductDetail>
                 <ProductDetail>
-                  <ProductId>{product.addDate}</ProductId>
+                  <ProductAddDate>{product.addDate}</ProductAddDate>
                 </ProductDetail>
                 <ProductDetail>
                   <ProductPrice>{Number(product.price).toFixed(2)} zł</ProductPrice>
                 </ProductDetail>
                 <ProductDetail>
-                  <Button>Usuń z listy</Button>
+                  <ButtonWrapper>
+                    <Button onClick={() => handleClick(product._id)}>Kup teraz</Button>
+                    <Button>Usuń z listy</Button>
+                  </ButtonWrapper>
                 </ProductDetail>
               </Product>
               <Hr />
