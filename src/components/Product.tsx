@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { SearchOutlined, FavoriteBorderOutlined } from '@mui/icons-material';
 import { ProductInterface } from 'types';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addProduct, ProductInFavorites } from '../redux/favoritesRedux';
 
 const Info = styled.div`
   opacity: 0;
@@ -73,6 +75,13 @@ interface ProductProps {
 }
 
 export const Product = ({ item }: ProductProps) => {
+  const { _id, img, title, price } = item;
+  const dispatch = useDispatch();
+
+  const handleFavorites = (product: ProductInFavorites) => {
+    dispatch(addProduct(product));
+  };
+
   return (
     <Container>
       <Image src={item.img} />
@@ -85,7 +94,7 @@ export const Product = ({ item }: ProductProps) => {
           </Link>
         </Icon>
         <Icon>
-          <FavoriteBorderOutlined />
+          <FavoriteBorderOutlined onClick={() => handleFavorites({ _id, img, price, title })} />
         </Icon>
       </Info>
     </Container>

@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
   ${mobile({ flexDirection: 'column', padding: '10px 0', height: '100%' })}
 `;
 
@@ -118,6 +118,7 @@ export const Navbar = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const [isFetching, setIsFetching] = useState(true);
   const quantity = useSelector((state: RootState) => state.cart.quantity);
+  const favoritesQuantity = useSelector((state: RootState) => state.favorites.products.length);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -166,7 +167,9 @@ export const Navbar = () => {
                 <ProfileIcon onClick={() => navigate('/account')} />
               </Menuitem>
               <Menuitem>
-                <FavoriteIcon onClick={() => navigate('/favorites')} />
+                <Badge badgeContent={favoritesQuantity} color='error'>
+                  <FavoriteIcon onClick={() => navigate('/favorites')} />
+                </Badge>
               </Menuitem>
             </>
           )}

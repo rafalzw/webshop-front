@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type ProductInFavorites = {
-  _id: string;
+  _id: string | undefined;
   title: string;
   img: string;
   price: number;
@@ -9,12 +9,12 @@ export type ProductInFavorites = {
 
 export interface FavoritesState {
   products: ProductInFavorites[];
-  date: Date | null;
+  date: string;
 }
 
 const initialState: FavoritesState = {
   products: [],
-  date: null,
+  date: 'null',
 };
 
 const favoritesSlice = createSlice({
@@ -23,7 +23,7 @@ const favoritesSlice = createSlice({
   reducers: {
     addProduct: (state, action: PayloadAction<ProductInFavorites>) => {
       state.products.push(action.payload);
-      state.date = new Date();
+      state.date = new Date().toLocaleDateString();
       localStorage.setItem('favorites', JSON.stringify(state));
     },
   },
