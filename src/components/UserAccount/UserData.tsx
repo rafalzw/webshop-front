@@ -7,11 +7,15 @@ import { checkLogin } from '../../redux/apiCalls';
 import styled from 'styled-components';
 import { mobile } from '../../responsive';
 import { validateForm } from '../../helpers/validateForm';
+import ClipLoader from 'react-spinners/ClipLoader';
 
-const Container = styled.div``;
+const Container = styled.div`
+  min-height: 80vh;
+`;
 const Wrapper = styled.div`
   padding: 40px;
   width: 40%;
+
   ${mobile({ padding: '10px', width: '90%' })}
 `;
 
@@ -70,6 +74,7 @@ export const UserData = () => {
   const [confirmPass, setConfirmPass] = useState('');
   const [error, setError] = useState<null | string>(null);
   const [success, setSuccess] = useState<null | string>(null);
+  const [loading, setLoading] = useState(false);
 
   const userId = user?._id;
 
@@ -88,8 +93,9 @@ export const UserData = () => {
       setError(resultError);
       return;
     }
+    setLoading(true);
     try {
-      const res = await axios.put(
+      await axios.put(
         `${url}/users`,
         { username, firstName, lastName, email, password },
         {
@@ -98,10 +104,7 @@ export const UserData = () => {
       );
       setError(null);
       setSuccess('Dane zostały zaktualizowane.');
-
-      setTimeout(() => {
-        window.location.replace('/');
-      }, 2000);
+      setLoading(false);
     } catch (err) {
       setError('Aktualizacja nie powiodła się, spróbuj ponownie...');
     }
@@ -115,6 +118,7 @@ export const UserData = () => {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       try {
         const res = await axios.get(`${url}/users/${userId}`, {
           withCredentials: true,
@@ -124,6 +128,7 @@ export const UserData = () => {
         setFirstName(firstName);
         setLastName(lastName);
         setEmail(email);
+        setLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -170,19 +175,25 @@ export const UserData = () => {
   return (
     <Container>
       <Wrapper>
-        <Form onSubmit={handleSubmit}>
-          <>
-            {formData.map((el, index) => (
-              <FormInputRow key={index}>
-                <FormLabel>{el.label}</FormLabel>
-                <FormInput type={el.type} value={el.value} onChange={el.onChange} />
-              </FormInputRow>
-            ))}
-          </>
-          {error && <FormMessage color='red'>{error}</FormMessage>}
-          {success && <FormMessage color='green'>{success}</FormMessage>}
-          <FormButton type='submit'>Zapisz</FormButton>
-        </Form>
+        {loading ? (
+          <ClipLoader />
+        ) : (
+          <Form onSubmit={handleSubmit}>
+            <>
+              {formData.map((el, index) => (
+                <FormInputRow key={index}>
+                  <FormLabel>{el.label}</FormLabel>
+                  <FormInput type={el.type} value={el.value} onChange={el.onChange} />
+                </FormInputRow>
+              ))}
+            </>
+            {error && <FormMessage color='red'>{error}</FormMessage>}
+            {success && <FormMessage color='green'>{success}</FormMessage>}
+            <FormButton disabled={loading} type='submit'>
+              Zapisz
+            </FormButton>
+          </Form>
+        )}
       </Wrapper>
     </Container>
   );

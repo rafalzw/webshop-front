@@ -3,6 +3,9 @@ import axios from 'axios';
 import { url } from '../config/config';
 import styled from 'styled-components';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { useNavigate } from 'react-router-dom';
 
 const Button = styled.button`
   width: 100%;
@@ -23,10 +26,15 @@ interface Props {
 }
 
 export const PayButton = ({ products }: Props) => {
+  const { user } = useSelector((state: RootState) => state.user);
   const [isProcessing, setIsProcessing] = useState(false);
+  const navigate = useNavigate();
 
   const handleCheckout = async () => {
     setIsProcessing(true);
+    if (!user) {
+      return navigate('/login');
+    }
     try {
       const res = await axios.post(`${url}/stripe/checkout`, products);
       if (res.data.url) {

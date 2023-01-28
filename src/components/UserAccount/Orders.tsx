@@ -3,11 +3,14 @@ import axios from 'axios';
 import { url } from '../../config/config';
 import styled from 'styled-components';
 import { OrderInterface } from 'types';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  min-height: 80vh;
 `;
 
 export const Table = styled.table`
@@ -17,6 +20,8 @@ export const Table = styled.table`
   text-align: center;
   border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11),
+    0 4px 4px rgba(0, 0, 0, 0.11), 0 6px 8px rgba(0, 0, 0, 0.11), 0 8px 16px rgba(0, 0, 0, 0.11);
 `;
 
 export const THead = styled.thead`
@@ -33,6 +38,7 @@ export const TH = styled.th`
   text-transform: capitalize;
   font-weight: 600;
   font-size: 14px;
+  border: 1px solid #ccc;
 `;
 
 export const TBody = styled.tbody``;
@@ -49,14 +55,17 @@ export const TD = styled.td`
 
 export const Orders = () => {
   const [orders, setOrders] = useState<null | OrderInterface[]>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       try {
         const res = await axios.get(`${url}/orders`, {
           withCredentials: true,
         });
         setOrders(res.data);
+        setLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -65,38 +74,42 @@ export const Orders = () => {
 
   const headers = ['#', 'id zamówienia', 'data', 'produkty', 'suma'];
 
-  if (!orders) {
-    return null;
-  }
-
-  return (
+  return loading ? (
     <Wrapper>
-      <Table>
-        <THead>
-          <THeadTR>
-            {headers.map((item, index) => (
-              <TH key={index}>{item}</TH>
+      <ClipLoader />
+    </Wrapper>
+  ) : (
+    <Wrapper>
+      {orders?.length ? (
+        <Table>
+          <THead>
+            <THeadTR>
+              {headers.map((item, index) => (
+                <TH key={index}>{item}</TH>
+              ))}
+            </THeadTR>
+          </THead>
+          <TBody>
+            {orders?.map((obj, index) => (
+              <TBodyTR key={index}>
+                <TD>{index + 1}</TD>
+                <TD>{obj._id}</TD>
+                <TD>{obj.createdAt?.slice(0, 10)}</TD>
+                <TD>
+                  {obj.products.map((item, index) => (
+                    <p key={index}>
+                      {item.productId} - {item.quantity} szt.
+                    </p>
+                  ))}
+                </TD>
+                <TD>{Number(obj.amount).toFixed(2)} zł</TD>
+              </TBodyTR>
             ))}
-          </THeadTR>
-        </THead>
-        <TBody>
-          {orders.map((obj, index) => (
-            <TBodyTR key={index}>
-              <TD>{index + 1}</TD>
-              <TD>{obj._id}</TD>
-              <TD>{obj.createdAt?.slice(0, 10)}</TD>
-              <TD>
-                {obj.products.map((item, index) => (
-                  <p key={index}>
-                    {item.productId} - {item.quantity} szt.
-                  </p>
-                ))}
-              </TD>
-              <TD>{obj.amount} zł</TD>
-            </TBodyTR>
-          ))}
-        </TBody>
-      </Table>
+          </TBody>
+        </Table>
+      ) : (
+        <h3>Brak zamówień</h3>
+      )}
     </Wrapper>
   );
 };

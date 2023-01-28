@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { mobile, tablet } from '../responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   width: 100vw;
@@ -44,14 +45,21 @@ const Input = styled.input`
     outline-color: #d3d3d3;
   }
 `;
+
+const WrapperButton = styled.div`
+  width: 100%;
+  ${mobile({ display: 'flex', flexDirection: 'column', marginTop: '10px' })}
+`;
+
 const Button = styled.button`
   width: 40%;
   border: none;
   padding: 15px 20px;
   background-color: #000;
+  text-transform: uppercase;
   color: #fff;
   cursor: pointer;
-  margin: 20px 0 10px 0;
+  margin: 20px 20px 10px 0;
   transition: background-color 0.5s ease;
   &:disabled {
     color: #d3d3d3;
@@ -60,16 +68,25 @@ const Button = styled.button`
   &:hover {
     background-color: #404040;
   }
+  ${mobile({ width: '100%', margin: '10px 0' })}
+`;
+
+const BackButton = styled(Button)`
+  width: 30%;
+  ${mobile({ width: '100%' })}
 `;
 
 const Link = styled.a`
   margin: 5px 0;
   font-size: 12px;
-  text-decoration: underline;
   cursor: pointer;
+  transition: color 0.4s ease;
+  &:hover {
+    color: #6d6d6d;
+  }
 `;
 
-const Error = styled.span`
+const FormMessage = styled.span`
   color: darkred;
 `;
 
@@ -79,6 +96,7 @@ export const Login = () => {
   const { loading, error } = useSelector((state: RootState) => state.user);
   const [isFetching, setIsFetching] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -107,12 +125,17 @@ export const Login = () => {
             placeholder='Hasło'
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button onClick={handleSubmit} disabled={loading}>
-            ZALOGUJ
-          </Button>
-          {error && <Error>Niepoprawna Nazwa użytkownika lub Hasło. Spóbuj ponownie.</Error>}
+          <WrapperButton>
+            <Button onClick={handleSubmit} disabled={loading}>
+              ZALOGUJ
+            </Button>
+            <BackButton onClick={() => navigate('/')}>anuluj</BackButton>
+          </WrapperButton>
+          {error && (
+            <FormMessage>Niepoprawna Nazwa użytkownika lub Hasło. Spóbuj ponownie.</FormMessage>
+          )}
           <Link>NIE PAMIĘTASZ HASŁA?</Link>
-          <Link>ZAREJESTRUJ SIĘ</Link>
+          <Link onClick={() => navigate('/register')}>ZAREJESTRUJ SIĘ</Link>
         </Form>
       </Wrapper>
     </Container>

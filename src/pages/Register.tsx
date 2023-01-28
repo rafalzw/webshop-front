@@ -5,6 +5,8 @@ import { mobile, tablet } from '../responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { checkLogin, register } from '../redux/apiCalls';
+import { validateForm } from '../helpers/validateForm';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   width: 100vw;
@@ -42,32 +44,47 @@ const Input = styled.input`
   &:focus {
     outline-color: #d3d3d3;
 `;
+
+const WrapperButton = styled.div`
+  width: 100%;
+  ${mobile({ display: 'flex', flexDirection: 'column', marginTop: '10px' })}
+`;
+
 const Button = styled.button`
   width: 40%;
   border: none;
   padding: 15px 20px;
   background-color: #000;
   color: #fff;
+  text-transform: uppercase;
   cursor: pointer;
-  margin-top: 20px;
+  margin: 20px 20px 10px 0;
   transition: background-color 0.5s ease;
   &:hover {
     background-color: #404040;
   }
+  ${mobile({ width: '100%', margin: '10px 0' })}
 `;
 
-const Error = styled.span`
+const BackButton = styled(Button)`
+  width: 30%;
+  ${mobile({ width: '100%' })}
+`;
+
+const FormMessage = styled.span`
   color: darkred;
 `;
 
 export const Register = () => {
   const { loading, error } = useSelector((state: RootState) => state.user);
-
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPass, setConfirmPass] = useState('');
+  const [invalid, setInvalid] = useState<null | string>(null);
+  const navigate = useNavigate();
 
   const [isFetching, setIsFetching] = useState(true);
   const dispatch = useDispatch();
@@ -85,6 +102,20 @@ export const Register = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    const resultError = validateForm({
+      username,
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPass,
+    });
+
+    if (resultError !== null) {
+      setInvalid(resultError);
+      return;
+    }
+
     await register(dispatch, { firstName, lastName, username, email, password });
   };
 
@@ -112,12 +143,21 @@ export const Register = () => {
             type='password'
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Input placeholder='Potwierdź hasło' />
-          <Button onClick={handleSubmit} disabled={loading}>
-            ZAREJESTRUJ
-          </Button>
-          {error && <Error>Coś poszło nie tak. Spóbuj ponownie.</Error>}
+          <Input
+            placeholder='Potwierdź hasło'
+            required
+            type='password'
+            onChange={(e) => setConfirmPass(e.target.value)}
+          />
+          <WrapperButton>
+            <Button onClick={handleSubmit} disabled={loading}>
+              zarejestruj
+            </Button>
+            <BackButton onClick={() => navigate('/')}>anuluj</BackButton>
+          </WrapperButton>
         </Form>
+        {invalid && <FormMessage>{invalid}</FormMessage>}
+        {error && <FormMessage>Coś poszło nie tak. Spóbuj ponownie.</FormMessage>}
       </Wrapper>
     </Container>
   );
