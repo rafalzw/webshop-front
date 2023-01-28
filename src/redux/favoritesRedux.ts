@@ -29,11 +29,19 @@ const favoritesSlice = createSlice({
       }
     },
     addProduct: (state, action: PayloadAction<ProductInFavorites>) => {
+      if (state.products.find((item) => item._id === action.payload._id)) {
+        return;
+      }
       state.products.push(action.payload);
       localStorage.setItem('favorites', JSON.stringify(state));
+    },
+    removeProduct: (state, action: PayloadAction<string | undefined>) => {
+      const newState = { products: state.products.filter((item) => item._id !== action.payload) };
+      localStorage.setItem('favorites', JSON.stringify(newState));
+      return { ...newState };
     },
   },
 });
 
-export const { addProduct, loadFavorites } = favoritesSlice.actions;
+export const { addProduct, loadFavorites, removeProduct } = favoritesSlice.actions;
 export default favoritesSlice.reducer;

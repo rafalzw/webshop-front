@@ -4,9 +4,10 @@ import { Announcement } from '../components/Announcement';
 import { Footer } from '../components/Footer';
 import { Navbar } from '../components/Navbar';
 import { mobile, tablet } from '../responsive';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useNavigate } from 'react-router-dom';
+import { removeProduct } from '../redux/favoritesRedux';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -86,9 +87,14 @@ const Hr = styled.hr`
 export const Favorites = () => {
   const favorites = useSelector((state: RootState) => state.favorites);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleClick = (id: string | undefined) => {
     navigate(`/product/${id}`);
+  };
+
+  const handleRemove = (id: string | undefined) => {
+    dispatch(removeProduct(id));
   };
 
   return (
@@ -119,7 +125,7 @@ export const Favorites = () => {
                 <ProductDetail>
                   <ButtonWrapper>
                     <Button onClick={() => handleClick(product._id)}>Kup teraz</Button>
-                    <Button>Usuń z listy</Button>
+                    <Button onClick={() => handleRemove(product._id)}>Usuń z listy</Button>
                   </ButtonWrapper>
                 </ProductDetail>
               </Product>
