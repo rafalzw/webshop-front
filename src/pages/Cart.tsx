@@ -77,6 +77,7 @@ const Product = styled.div`
 const ProductDetail = styled.div`
   flex: 2;
   display: flex;
+  ${mobile({ flexDirection: 'column', alignItems: 'center' })}
 `;
 const Image = styled.img`
   width: 200px;
