@@ -48,6 +48,7 @@ const Input = styled.input`
 
 const WrapperButton = styled.div`
   width: 100%;
+  ${mobile({ display: 'flex', flexDirection: 'column', marginTop: '10px' })}
 `;
 
 const Button = styled.button`
@@ -67,17 +68,22 @@ const Button = styled.button`
   &:hover {
     background-color: #404040;
   }
+  ${mobile({ width: '100%', margin: '10px 0' })}
 `;
 
 const BackButton = styled(Button)`
   width: 30%;
+  ${mobile({ width: '100%' })}
 `;
 
 const Link = styled.a`
   margin: 5px 0;
   font-size: 12px;
-  text-decoration: underline;
   cursor: pointer;
+  transition: color 0.4s ease;
+  &:hover {
+    color: #6d6d6d;
+  }
 `;
 
 const FormMessage = styled.span`
@@ -129,7 +135,7 @@ export const Login = () => {
             <FormMessage>Niepoprawna Nazwa użytkownika lub Hasło. Spóbuj ponownie.</FormMessage>
           )}
           <Link>NIE PAMIĘTASZ HASŁA?</Link>
-          <Link>ZAREJESTRUJ SIĘ</Link>
+          <Link onClick={() => navigate('/register')}>ZAREJESTRUJ SIĘ</Link>
         </Form>
       </Wrapper>
     </Container>

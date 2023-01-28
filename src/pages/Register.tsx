@@ -47,6 +47,7 @@ const Input = styled.input`
 
 const WrapperButton = styled.div`
   width: 100%;
+  ${mobile({ display: 'flex', flexDirection: 'column', marginTop: '10px' })}
 `;
 
 const Button = styled.button`
@@ -62,10 +63,12 @@ const Button = styled.button`
   &:hover {
     background-color: #404040;
   }
+  ${mobile({ width: '100%', margin: '10px 0' })}
 `;
 
 const BackButton = styled(Button)`
   width: 30%;
+  ${mobile({ width: '100%' })}
 `;
 
 const FormMessage = styled.span`
