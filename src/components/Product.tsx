@@ -79,7 +79,8 @@ export const Product = ({ item }: ProductProps) => {
   const dispatch = useDispatch();
 
   const handleFavorites = (product: ProductInFavorites) => {
-    dispatch(addProduct(product));
+    const date = new Date().toLocaleDateString();
+    dispatch(addProduct({ ...product, addDate: date }));
   };
 
   return (

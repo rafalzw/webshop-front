@@ -5,16 +5,15 @@ export type ProductInFavorites = {
   title: string;
   img: string;
   price: number;
+  addDate?: string;
 };
 
 export interface FavoritesState {
   products: ProductInFavorites[];
-  date: string;
 }
 
 const initialState: FavoritesState = {
   products: [],
-  date: 'null',
 };
 
 const favoritesSlice = createSlice({
@@ -23,7 +22,6 @@ const favoritesSlice = createSlice({
   reducers: {
     addProduct: (state, action: PayloadAction<ProductInFavorites>) => {
       state.products.push(action.payload);
-      state.date = new Date().toLocaleDateString();
       localStorage.setItem('favorites', JSON.stringify(state));
     },
   },
