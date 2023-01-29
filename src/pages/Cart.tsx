@@ -12,6 +12,7 @@ import { CheckoutSuccess } from './CheckoutSuccess';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { incQuantity, decQuantity } from '../redux/cartRedux';
+import { EmptyList } from '../components/EmptyList';
 
 interface TopButtonProps {
   value?: string;
@@ -117,7 +118,6 @@ const ProductAmount = styled.div`
 `;
 const ProductPrice = styled.div`
   font-size: 26px;
-  font-weight: 300;
   ${mobile({ marginBottom: '20px' })}
 `;
 
@@ -173,75 +173,85 @@ export const Cart = () => {
       <Navbar />
       <Wrapper>
         <Title>TWÓJ KOSZYK</Title>
-        <Top>
-          <TopButton onClick={() => navigate('/products/')}>kontynuuj zakupy</TopButton>
-          <TopTexts>
-            <TopText>Artykuły({cart.products.length})</TopText>
-            <TopText>Lista artykułów</TopText>
-          </TopTexts>
-          <TopButton onClick={() => navigate(-1)} value='filled'>
-            powrót
-          </TopButton>
-        </Top>
-        <Bottom>
-          <Info>
-            {cart.products.map((product) => (
-              <Product key={product._id}>
-                <ProductDetail>
-                  <Image src={product.img} />
-                  <Details>
-                    <ProductName>
-                      <b>Produkt: </b>
-                      {product.title}
-                    </ProductName>
-                    <ProductId>
-                      <b>ID: </b>
-                      {product._id}
-                    </ProductId>
-                    <ProductColor color={product.color} />
-                    <ProductSize>
-                      <b>Rozmiar: </b>
-                      {product.size}
-                    </ProductSize>
-                  </Details>
-                </ProductDetail>
-                <PriceDetail>
-                  <ProductAmountContainer>
-                    <Remove
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => handleQuantity(product._id, 'dec')}
-                    />
-                    <ProductAmount>{product.quantity}</ProductAmount>
-                    <Add
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => handleQuantity(product._id, 'inc')}
-                    />
-                  </ProductAmountContainer>
-                  <ProductPrice>
-                    {Number(product.price * product.quantity).toFixed(2)} zł
-                  </ProductPrice>
-                </PriceDetail>
-              </Product>
-            ))}
-            <Hr />
-          </Info>
-          <Summary>
-            <SummaryTitle>PODSUMOWANIE ZAMÓWIENIA</SummaryTitle>
-            <SummaryItem>
-              <SummaryItemText>Wartość zamówienia:</SummaryItemText>
-              <SummaryItemPrice>{cart.total.toFixed(2)} zł</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Koszt przesyłki:</SummaryItemText>
-              <SummaryItemPrice>Gratis</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem value='total'>
-              <SummaryItemText>Do zapłaty:</SummaryItemText>
-              <SummaryItemPrice>{cart.total.toFixed(2)} zł</SummaryItemPrice>
-            </SummaryItem>
-            <PayButton products={cart.products} />
-          </Summary>
-        </Bottom>
+        {cart.products.length ? (
+          <>
+            <Top>
+              <TopButton onClick={() => navigate('/products/')}>kontynuuj zakupy</TopButton>
+              <TopTexts>
+                <TopText>Artykuły({cart.products.length})</TopText>
+                <TopText>Lista artykułów</TopText>
+              </TopTexts>
+              <TopButton onClick={() => navigate(-1)} value='filled'>
+                powrót
+              </TopButton>
+            </Top>
+            <Bottom>
+              <Info>
+                {cart.products.map((product) => (
+                  <Product key={product._id}>
+                    <ProductDetail>
+                      <Image src={product.img} />
+                      <Details>
+                        <ProductName>
+                          <b>Produkt: </b>
+                          {product.title}
+                        </ProductName>
+                        <ProductId>
+                          <b>ID: </b>
+                          {product._id}
+                        </ProductId>
+                        <ProductColor color={product.color} />
+                        <ProductSize>
+                          <b>Rozmiar: </b>
+                          {product.size}
+                        </ProductSize>
+                      </Details>
+                    </ProductDetail>
+                    <PriceDetail>
+                      <ProductAmountContainer>
+                        <Remove
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => handleQuantity(product._id, 'dec')}
+                        />
+                        <ProductAmount>{product.quantity}</ProductAmount>
+                        <Add
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => handleQuantity(product._id, 'inc')}
+                        />
+                      </ProductAmountContainer>
+                      <ProductPrice>
+                        {Number(product.price * product.quantity).toFixed(2)} zł
+                      </ProductPrice>
+                    </PriceDetail>
+                  </Product>
+                ))}
+                <Hr />
+              </Info>
+              <Summary>
+                <SummaryTitle>PODSUMOWANIE ZAMÓWIENIA</SummaryTitle>
+                <SummaryItem>
+                  <SummaryItemText>Wartość zamówienia:</SummaryItemText>
+                  <SummaryItemPrice>{cart.total.toFixed(2)} zł</SummaryItemPrice>
+                </SummaryItem>
+                <SummaryItem>
+                  <SummaryItemText>Koszt przesyłki:</SummaryItemText>
+                  <SummaryItemPrice>Gratis</SummaryItemPrice>
+                </SummaryItem>
+                <SummaryItem value='total'>
+                  <SummaryItemText>Do zapłaty:</SummaryItemText>
+                  <SummaryItemPrice>{cart.total.toFixed(2)} zł</SummaryItemPrice>
+                </SummaryItem>
+                <PayButton products={cart.products} />
+              </Summary>
+            </Bottom>
+          </>
+        ) : (
+          <EmptyList
+            type='cart'
+            title='Twój koszyk jest pusty.'
+            text='Dodaj do niego produkty, aby móc rozpocząć składanie zamówienia.'
+          />
+        )}
       </Wrapper>
       <Footer />
     </Container>

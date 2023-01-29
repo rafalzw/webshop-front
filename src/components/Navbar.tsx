@@ -124,11 +124,11 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    dispatch(loadCart());
+    dispatch(loadFavorites());
     (async () => {
       await checkLogin(dispatch);
       setIsFetching(false);
-      dispatch(loadCart());
-      dispatch(loadFavorites());
     })();
   }, []);
 

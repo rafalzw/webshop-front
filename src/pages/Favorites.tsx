@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useNavigate } from 'react-router-dom';
 import { removeProduct } from '../redux/favoritesRedux';
+import { EmptyList } from '../components/EmptyList';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -103,36 +104,44 @@ export const Favorites = () => {
       <Navbar />
       <Wrapper>
         <Title>ULUBIONE</Title>
-        <List>
-          <Hr />
-          {favorites.products.map((product) => (
-            <>
-              <Product key={product._id}>
-                <ProductDetail>
-                  <Image src={product.img} onClick={() => handleClick(product._id)} />
-                </ProductDetail>
-                <ProductDetail>
-                  <ProductName onClick={() => handleClick(product._id)}>
-                    {product.title}
-                  </ProductName>
-                </ProductDetail>
-                <ProductDetail>
-                  <ProductAddDate>{product.addDate}</ProductAddDate>
-                </ProductDetail>
-                <ProductDetail>
-                  <ProductPrice>{Number(product.price).toFixed(2)} zł</ProductPrice>
-                </ProductDetail>
-                <ProductDetail>
-                  <ButtonWrapper>
-                    <Button onClick={() => handleClick(product._id)}>Kup teraz</Button>
-                    <Button onClick={() => handleRemove(product._id)}>Usuń z listy</Button>
-                  </ButtonWrapper>
-                </ProductDetail>
-              </Product>
-              <Hr />
-            </>
-          ))}
-        </List>
+        {favorites.products.length ? (
+          <List>
+            <Hr />
+            {favorites.products.map((product) => (
+              <>
+                <Product key={product._id}>
+                  <ProductDetail>
+                    <Image src={product.img} onClick={() => handleClick(product._id)} />
+                  </ProductDetail>
+                  <ProductDetail>
+                    <ProductName onClick={() => handleClick(product._id)}>
+                      {product.title}
+                    </ProductName>
+                  </ProductDetail>
+                  <ProductDetail>
+                    <ProductAddDate>{product.addDate}</ProductAddDate>
+                  </ProductDetail>
+                  <ProductDetail>
+                    <ProductPrice>{Number(product.price).toFixed(2)} zł</ProductPrice>
+                  </ProductDetail>
+                  <ProductDetail>
+                    <ButtonWrapper>
+                      <Button onClick={() => handleClick(product._id)}>Kup teraz</Button>
+                      <Button onClick={() => handleRemove(product._id)}>Usuń z listy</Button>
+                    </ButtonWrapper>
+                  </ProductDetail>
+                </Product>
+                <Hr />
+              </>
+            ))}
+          </List>
+        ) : (
+          <EmptyList
+            type='favorites'
+            title='Lista zakupowa jest pusta.'
+            text='Dodaj do niej produkty, które lubisz i chcesz kupić później.'
+          />
+        )}
       </Wrapper>
       <Footer />
     </Container>
