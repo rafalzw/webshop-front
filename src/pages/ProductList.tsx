@@ -11,6 +11,7 @@ import { useState } from 'react';
 
 const Container = styled.div``;
 const Title = styled.h1`
+  text-transform: uppercase;
   margin: 20px;
 `;
 const FilterContainer = styled.div`
@@ -33,6 +34,21 @@ const Select = styled.select`
   ${mobile({ margin: '10px 0' })}
 `;
 const Option = styled.option``;
+const Button = styled.button`
+  border: none;
+  padding: 8px;
+  background-color: #000;
+  margin: 10px;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.4s ease;
+  &:hover {
+    background-color: #404040;
+  }
+  ${mobile({ width: '100%', margin: '10px 0' })}
+`;
 
 export const ProductList = () => {
   const [filters, setFilters] = useState({});
@@ -52,7 +68,7 @@ export const ProductList = () => {
     <Container>
       <Announcement />
       <Navbar />
-      <Title>{cat.toUpperCase()}</Title>
+      <Title>{cat}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filtry:</FilterText>
@@ -73,6 +89,7 @@ export const ProductList = () => {
             <Option>Xl</Option>
             <Option>XXL</Option>
           </Select>
+          <Button onClick={() => setFilters({})}>usuń filtry</Button>
         </Filter>
         <Filter>
           <FilterText>Sortuj:</FilterText>

@@ -138,6 +138,7 @@ export const Navbar = () => {
 
   const handleLogout = async () => {
     await logout(dispatch);
+    navigate('/');
   };
 
   return (
