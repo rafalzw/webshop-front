@@ -2,9 +2,12 @@ import { Facebook, Instagram, MailOutline, Phone, Pinterest, Room } from '@mui/i
 import * as React from 'react';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
+  background-color: black;
+  color: white;
   ${mobile({ flexDirection: 'column' })}
 `;
 const Left = styled.div`
@@ -66,6 +69,7 @@ const ContactItem = styled.div`
 `;
 
 export const Footer = () => {
+  const navigate = useNavigate();
   return (
     <Container>
       <Left>
@@ -90,13 +94,12 @@ export const Footer = () => {
       <Center>
         <Title>Przydatne Linki</Title>
         <List>
-          <ListItem>Strona Główna</ListItem>
-          <ListItem>Koszyk</ListItem>
-          <ListItem>Garnitury</ListItem>
-          <ListItem>Koszule</ListItem>
-          <ListItem>Obuwie</ListItem>
-          <ListItem>Akcesoria</ListItem>
-          <ListItem>Promocje</ListItem>
+          <ListItem onClick={() => navigate('/')}>Strona Główna</ListItem>
+          <ListItem onClick={() => navigate('/cart')}>Koszyk</ListItem>
+          <ListItem onClick={() => navigate('/products/garnitury')}>Garnitury</ListItem>
+          <ListItem onClick={() => navigate('/products/koszule')}>Koszule</ListItem>
+          <ListItem onClick={() => navigate('/products/obuwie')}>Obuwie</ListItem>
+          <ListItem onClick={() => navigate('/products/akcesoria')}>Akcesoria</ListItem>
         </List>
       </Center>
       <Right>
