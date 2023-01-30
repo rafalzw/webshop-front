@@ -49,9 +49,14 @@ const List = styled.div`
   ${mobile({ flexDirection: 'column' })}
   ${tablet({ flexDirection: 'column' })}
 `;
+
+const OneProductWrapper = styled.div`
+  width: 80%;
+`;
+
 const Product = styled.div`
   display: flex;
-  width: 80%;
+  width: 100%;
   justify-content: space-around;
   align-items: center;
   margin: 10px 0 10px 0;
@@ -108,8 +113,8 @@ export const Favorites = () => {
           <List>
             <Hr />
             {favorites.products.map((product) => (
-              <>
-                <Product key={product._id}>
+              <OneProductWrapper key={product._id}>
+                <Product>
                   <ProductDetail>
                     <Image src={product.img} onClick={() => handleClick(product._id)} />
                   </ProductDetail>
@@ -132,7 +137,7 @@ export const Favorites = () => {
                   </ProductDetail>
                 </Product>
                 <Hr />
-              </>
+              </OneProductWrapper>
             ))}
           </List>
         ) : (
