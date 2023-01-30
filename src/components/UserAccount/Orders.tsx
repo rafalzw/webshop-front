@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { url } from '../../config/config';
 import styled from 'styled-components';
 import { OrderInterface } from 'types';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { EmptyList } from '../EmptyList';
 
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
 `;
 
 export const Table = styled.table`
@@ -108,7 +108,11 @@ export const Orders = () => {
           </TBody>
         </Table>
       ) : (
-        <h3>Brak zamówień</h3>
+        <EmptyList
+          type='orders'
+          title='Brak zrealizowanych zamówień.'
+          text='Przejdź do listy produktów i złóż swoje pierwsze zamówienie.'
+        />
       )}
     </Wrapper>
   );

@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ShoppingCartOutlined, FavoriteBorderOutlined } from '@mui/icons-material';
+import {
+  ShoppingCartOutlined,
+  FavoriteBorderOutlined,
+  LocalShippingOutlined,
+} from '@mui/icons-material';
 import { mobile } from '../responsive';
 import { useNavigate } from 'react-router-dom';
 
@@ -44,13 +48,20 @@ interface Props {
 
 export const EmptyList = ({ type, title, text }: Props) => {
   const navigate = useNavigate();
+
+  const renderIcon = (type: string) => {
+    switch (type) {
+      case 'cart':
+        return <ShoppingCartOutlined style={{ fontSize: '64' }} />;
+      case 'favorites':
+        return <FavoriteBorderOutlined style={{ fontSize: '64' }} />;
+      case 'orders':
+        return <LocalShippingOutlined style={{ fontSize: '64' }} />;
+    }
+  };
   return (
     <Wrapper>
-      {type === 'cart' ? (
-        <ShoppingCartOutlined style={{ fontSize: '64' }} />
-      ) : (
-        <FavoriteBorderOutlined style={{ fontSize: '64' }} />
-      )}
+      {renderIcon(type)}
       <H2>{title}</H2>
       <Text>{text}</Text>
       <Button onClick={() => navigate('/products/')}>ROZPOCZNIJ ZAKUPY</Button>
