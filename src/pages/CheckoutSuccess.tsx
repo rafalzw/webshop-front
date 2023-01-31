@@ -5,6 +5,8 @@ import { url } from '../config/config';
 import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { useDispatch } from 'react-redux';
+import { removeCart } from '../redux/cartRedux';
 
 const Background = styled.div`
   width: 100%;
@@ -78,6 +80,7 @@ export const CheckoutSuccess = ({ showOrderModal, setShowOrderModal }: Props) =>
   const [orderId, setOrderId] = useState(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const closeModal = (e: MouseEvent) => {
@@ -105,6 +108,7 @@ export const CheckoutSuccess = ({ showOrderModal, setShowOrderModal }: Props) =>
         },
         { method: 'post', withCredentials: true },
       );
+      dispatch(removeCart());
       setOrderId(res.data._id);
       setLoading(false);
     } catch (err) {
