@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SendOutlined } from '@mui/icons-material';
+import SendIcon from '@mui/icons-material/Send';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
 
@@ -40,8 +40,12 @@ const Input = styled.input`
 const Button = styled.button`
   flex: 1;
   border: none;
-  background-color: cadetblue;
-  color: white;
+  background-color: #000;
+  color: #d3d3d3;
+  cursor: pointer;
+  transition: background-color 0.4s ease;
+  &:hover {
+    background-color: #404040;
 `;
 
 export const Newsletter = () => {
@@ -52,7 +56,7 @@ export const Newsletter = () => {
       <InputContainer>
         <Input placeholder='Twój adres email' />
         <Button>
-          <SendOutlined />
+          <SendIcon />
         </Button>
       </InputContainer>
     </Container>

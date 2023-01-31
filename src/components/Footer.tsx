@@ -55,6 +55,10 @@ const ListItem = styled.li`
   width: 50%;
   margin-bottom: 10px;
   cursor: pointer;
+  transition: color 0.4s ease;
+  &:hover {
+    color: #ddd;
+  }
 `;
 
 const Right = styled.div`
