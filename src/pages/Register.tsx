@@ -51,9 +51,10 @@ const Input = styled.input`
   min-width: 50%;
   margin: 20px 10px 5px 0;
   padding: 10px;
+  outline-color: ${(props) => props.color};
   border: solid 1px #d3d3d3;
   &:focus {
-    outline-color: #d3d3d3;
+    outline-color: ${(props) => props.color};
 `;
 
 const ErrorWrapper = styled.div`
@@ -130,6 +131,7 @@ export const Register = () => {
                 type='text'
                 placeholder='Imię'
                 onBlur={handleBlur}
+                color={errors.firstName && touched.firstName ? 'darkred' : '#d3d3d3'}
               />
               <ErrorWrapper>
                 {errors.firstName && touched.firstName && (
@@ -145,6 +147,7 @@ export const Register = () => {
                 type='text'
                 placeholder='Nazwisko'
                 onBlur={handleBlur}
+                color={errors.lastName && touched.lastName ? 'darkred' : '#d3d3d3'}
               />
               <ErrorWrapper>
                 {errors.lastName && touched.lastName && (
@@ -160,6 +163,7 @@ export const Register = () => {
                 type='text'
                 placeholder='Nazwa użytkownika'
                 onBlur={handleBlur}
+                color={errors.username && touched.username ? 'darkred' : '#d3d3d3'}
               />
               <ErrorWrapper>
                 {errors.username && touched.username && (
@@ -175,6 +179,7 @@ export const Register = () => {
                 type='email'
                 placeholder='Email'
                 onBlur={handleBlur}
+                color={errors.email && touched.email ? 'darkred' : '#d3d3d3'}
               />
               <ErrorWrapper>
                 {errors.email && touched.email && <FormMessage>{errors.email}</FormMessage>}
@@ -188,6 +193,7 @@ export const Register = () => {
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                color={errors.password && touched.password ? 'darkred' : '#d3d3d3'}
               />
               <ErrorWrapper>
                 {errors.password && touched.password && (
@@ -203,6 +209,7 @@ export const Register = () => {
                 value={values.confirmPassword}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                color={errors.confirmPassword && touched.confirmPassword ? 'darkred' : '#d3d3d3'}
               />
               <ErrorWrapper>
                 {errors.confirmPassword && touched.confirmPassword && (
