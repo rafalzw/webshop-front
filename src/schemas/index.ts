@@ -19,7 +19,7 @@ export const registerSchema = yup.object().shape({
     .required('Pole wymagane'),
   username: yup
     .string()
-    .min(6, minCharacters(6))
+    .min(4, minCharacters(4))
     .max(20, maxCharacters(20))
     .required('Pole wymagane'),
   email: yup.string().email('Wprowadź poprawny adres email').required('Pole wymagane'),
@@ -28,8 +28,7 @@ export const registerSchema = yup.object().shape({
     .min(5, minCharacters(5))
     .max(250, minCharacters(250))
     .matches(passwordRules, {
-      message:
-        'Wprowadź silniejsze hasło. Minimum 5 znaków, 1 duża litera, 1 mała litera, 1 cyfra.',
+      message: 'Wprowadź silniejsze hasło. Minimum 5 znaków, 1 duża litera, 1 mała litera, 1 cyfra',
     })
     .required('Pole wymagane'),
   confirmPassword: yup
