@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { FormEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { mobile, tablet } from '../responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { checkLogin, register } from '../redux/apiCalls';
-import { validateForm } from '../helpers/validateForm';
+import { register } from '../redux/apiCalls';
 import { useNavigate } from 'react-router-dom';
+import { FormikValues, useFormik } from 'formik';
+import { registerSchema } from '../schemas';
 
 const Container = styled.div`
   width: 100vw;
@@ -30,22 +30,43 @@ const Title = styled.h1`
   font-size: 24px;
   font-weight: 400;
 `;
-const Form = styled.form`
+const Form = styled.form``;
+const InputsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 0.8rem;
+  ${mobile({ flexDirection: 'column' })}
 `;
+
+const OneInputWrapper = styled.div`
+  flex: 1;
+  min-width: 50%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
 const Input = styled.input`
   flex: 1;
-  min-width: 40%;
-  margin: 20px 10px 0 0;
+  min-width: 50%;
+  margin: 20px 10px 5px 0;
   padding: 10px;
   border: solid 1px #d3d3d3;
-
   &:focus {
     outline-color: #d3d3d3;
 `;
 
+const ErrorWrapper = styled.div`
+  height: 1rem;
+`;
+
+const FormMessage = styled.p`
+  font-size: 0.8rem;
+  color: darkred;
+`;
+
 const WrapperButton = styled.div`
+  flex: 1;
   width: 100%;
   ${mobile({ display: 'flex', flexDirection: 'column', marginTop: '10px' })}
 `;
@@ -71,92 +92,132 @@ const BackButton = styled(Button)`
   ${mobile({ width: '100%' })}
 `;
 
-const FormMessage = styled.span`
-  color: darkred;
-`;
-
 export const Register = () => {
-  const { loading, error } = useSelector((state: RootState) => state.user);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPass, setConfirmPass] = useState('');
-  const [invalid, setInvalid] = useState<null | string>(null);
+  const { error } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
-
-  const [isFetching, setIsFetching] = useState(true);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    (async () => {
-      await checkLogin(dispatch);
-      setIsFetching(false);
-    })();
-  }, []);
-
-  if (isFetching) {
-    return null;
-  }
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    const resultError = validateForm({
-      username,
-      firstName,
-      lastName,
-      email,
-      password,
-      confirmPass,
-    });
-
-    if (resultError !== null) {
-      setInvalid(resultError);
-      return;
-    }
-
+  const onSubmit = async (values: FormikValues, actions: any) => {
+    const { firstName, lastName, username, email, password } = values;
     await register(dispatch, { firstName, lastName, username, email, password });
+    actions.resetForm();
   };
+  const { values, errors, touched, isSubmitting, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: {
+        firstName: '',
+        lastName: '',
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+      },
+      validationSchema: registerSchema,
+      onSubmit,
+    });
 
   return (
     <Container>
       <Wrapper>
         <Title>UTWÓRZ NOWE KONTO</Title>
-        <Form>
-          <Input placeholder='Imię' required onChange={(e) => setFirstName(e.target.value)} />
-          <Input placeholder='Nazwisko' required onChange={(e) => setLastName(e.target.value)} />
-          <Input
-            placeholder='Nazwa użytkownika'
-            required
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <Input
-            placeholder='Email'
-            required
-            type='email'
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Input
-            placeholder='Hasło'
-            required
-            type='password'
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Input
-            placeholder='Potwierdź hasło'
-            required
-            type='password'
-            onChange={(e) => setConfirmPass(e.target.value)}
-          />
+        <Form onSubmit={handleSubmit} autoComplete='off'>
+          <InputsWrapper>
+            <OneInputWrapper>
+              <Input
+                value={values.firstName}
+                onChange={handleChange}
+                id='firstName'
+                type='text'
+                placeholder='Imię'
+                onBlur={handleBlur}
+              />
+              <ErrorWrapper>
+                {errors.firstName && touched.firstName && (
+                  <FormMessage>{errors.firstName}</FormMessage>
+                )}
+              </ErrorWrapper>
+            </OneInputWrapper>
+            <OneInputWrapper>
+              <Input
+                value={values.lastName}
+                onChange={handleChange}
+                id='lastName'
+                type='text'
+                placeholder='Nazwisko'
+                onBlur={handleBlur}
+              />
+              <ErrorWrapper>
+                {errors.lastName && touched.lastName && (
+                  <FormMessage>{errors.lastName}</FormMessage>
+                )}
+              </ErrorWrapper>
+            </OneInputWrapper>
+            <OneInputWrapper>
+              <Input
+                value={values.username}
+                onChange={handleChange}
+                id='username'
+                type='text'
+                placeholder='Nazwa użytkownika'
+                onBlur={handleBlur}
+              />
+              <ErrorWrapper>
+                {errors.username && touched.username && (
+                  <FormMessage>{errors.username}</FormMessage>
+                )}
+              </ErrorWrapper>
+            </OneInputWrapper>
+            <OneInputWrapper>
+              <Input
+                value={values.email}
+                onChange={handleChange}
+                id='email'
+                type='email'
+                placeholder='Email'
+                onBlur={handleBlur}
+              />
+              <ErrorWrapper>
+                {errors.email && touched.email && <FormMessage>{errors.email}</FormMessage>}
+              </ErrorWrapper>
+            </OneInputWrapper>
+            <OneInputWrapper>
+              <Input
+                id='password'
+                type='password'
+                placeholder='Hasło'
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <ErrorWrapper>
+                {errors.password && touched.password && (
+                  <FormMessage>{errors.password}</FormMessage>
+                )}
+              </ErrorWrapper>
+            </OneInputWrapper>
+            <OneInputWrapper>
+              <Input
+                id='confirmPassword'
+                type='password'
+                placeholder='Potwierdź hasło'
+                value={values.confirmPassword}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <ErrorWrapper>
+                {errors.confirmPassword && touched.confirmPassword && (
+                  <FormMessage>{errors.confirmPassword}</FormMessage>
+                )}
+              </ErrorWrapper>
+            </OneInputWrapper>
+          </InputsWrapper>
           <WrapperButton>
-            <Button onClick={handleSubmit} disabled={loading}>
+            <Button disabled={isSubmitting} type='submit'>
               zarejestruj
             </Button>
             <BackButton onClick={() => navigate('/')}>anuluj</BackButton>
           </WrapperButton>
         </Form>
-        {invalid && <FormMessage>{invalid}</FormMessage>}
         {error && <FormMessage>Coś poszło nie tak. Spóbuj ponownie.</FormMessage>}
       </Wrapper>
     </Container>
