@@ -26,7 +26,7 @@ export const registerSchema = yup.object().shape({
   password: yup
     .string()
     .min(5, minCharacters(5))
-    .max(250, minCharacters(250))
+    .max(255, minCharacters(255))
     .matches(passwordRules, {
       message: 'Wprowadź silniejsze hasło. Minimum 5 znaków, 1 duża litera, 1 mała litera, 1 cyfra',
     })
