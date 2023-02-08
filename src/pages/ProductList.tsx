@@ -77,17 +77,17 @@ export const ProductList = () => {
             <Option value='black'>Czarny</Option>
             <Option value='darkblue'>Granatowy</Option>
             <Option value='blue'>Niebieski</Option>
-            <Option value='grey'>Szary</Option>
+            <Option value='gray'>Szary</Option>
             <Option value='white'>Biały</Option>
             <Option value='darkred'>Bordowy</Option>
           </Select>
           <Select name='size' onChange={handleFilters}>
             <Option disabled>Rozmiar</Option>
-            <Option>S</Option>
-            <Option>M</Option>
-            <Option>L</Option>
-            <Option>Xl</Option>
-            <Option>XXL</Option>
+            <Option value='s'>S</Option>
+            <Option value='m'>M</Option>
+            <Option value='l'>L</Option>
+            <Option value='xl'>Xl</Option>
+            <Option value='xxl'>XXL</Option>
           </Select>
           <Button onClick={() => setFilters({})}>usuń filtry</Button>
         </Filter>
