@@ -1,7 +1,10 @@
+import { Categories } from './components/Categories';
 import suits from './assets/img/suits_category.jpg';
 import shirts from './assets/img/shirts_category.jpg';
 import shoes from './assets/img/shoes_category.jpeg';
-import { Categories } from './components/Categories';
+import slider1 from './assets/img/slider_1.jpg';
+import slider2 from './assets/img/slider_2.jpg';
+import slider3 from './assets/img/slider_3.jpg';
 
 interface SliderItems {
   id: number;
@@ -21,21 +24,21 @@ export interface Categories {
 export const sliderItems: SliderItems[] = [
   {
     id: 1,
-    img: 'https://images.pexels.com/photos/3778212/pexels-photo-3778212.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    img: slider1,
     title: 'JESIENNA WYPRZEDAŻ',
     desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum iusto obcaecati sint. Accusantium aliquam aliquid ducimus eius enim ipsa minus, odit porro, praesentium, quaerat quasi recusandae repellendus vero vitae voluptates.',
     bg: 'fff',
   },
   {
     id: 2,
-    img: 'https://images.pexels.com/photos/10153608/pexels-photo-10153608.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    img: slider2,
     title: 'NOWE KOLEKCJE',
     desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum iusto obcaecati sint. Accusantium aliquam aliquid ducimus eius enim ipsa minus, odit porro, praesentium, quaerat quasi recusandae repellendus vero vitae voluptates.',
     bg: 'eee',
   },
   {
     id: 3,
-    img: 'https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    img: slider3,
     title: 'TRZECI PRODUKT -50%',
     desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum iusto obcaecati sint. Accusantium aliquam aliquid ducimus eius enim ipsa minus, odit porro, praesentium, quaerat quasi recusandae repellendus vero vitae voluptates.',
     bg: 'd3d3d3',
