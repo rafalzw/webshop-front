@@ -9,6 +9,7 @@ import { RootState } from '../redux/store';
 import { useNavigate } from 'react-router-dom';
 import { removeProduct } from '../redux/favoritesRedux';
 import { EmptyList } from '../components/EmptyList';
+import { productImagesFolder } from '../config/config';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -116,7 +117,10 @@ export const Favorites = () => {
               <OneProductWrapper key={product._id}>
                 <Product>
                   <ProductDetail>
-                    <Image src={product.img} onClick={() => handleClick(product._id)} />
+                    <Image
+                      src={productImagesFolder + product.img}
+                      onClick={() => handleClick(product._id)}
+                    />
                   </ProductDetail>
                   <ProductDetail>
                     <ProductName onClick={() => handleClick(product._id)}>

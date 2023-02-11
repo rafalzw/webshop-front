@@ -9,7 +9,7 @@ import { mobile, tablet } from '../responsive';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { apiUrl } from '../config/config';
+import { apiUrl, productImagesFolder } from '../config/config';
 import { ProductInterface } from 'types';
 import { addProduct, ProductInCart } from '../redux/cartRedux';
 import { useDispatch } from 'react-redux';
@@ -148,7 +148,7 @@ export const Product = () => {
       <Navbar />
       <Wrapper>
         <ImgContainer>
-          <Image src={product?.img} />
+          <Image src={productImagesFolder + product?.img} />
         </ImgContainer>
         <InfoContainer>
           <Title>{product?.title}</Title>

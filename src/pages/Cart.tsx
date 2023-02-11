@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { incQuantity, decQuantity } from '../redux/cartRedux';
 import { EmptyList } from '../components/EmptyList';
+import { apiUrl, productImagesFolder } from '../config/config';
 
 interface TopButtonProps {
   value?: string;
@@ -190,7 +191,7 @@ export const Cart = () => {
                 {cart.products.map((product) => (
                   <Product key={product._id}>
                     <ProductDetail>
-                      <Image src={product.img} />
+                      <Image src={productImagesFolder + product.img} />
                       <Details>
                         <ProductName>
                           <b>Produkt: </b>
