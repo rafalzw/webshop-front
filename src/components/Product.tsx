@@ -5,6 +5,7 @@ import { ProductInterface } from 'types';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addProduct, ProductInFavorites } from '../redux/favoritesRedux';
+import { apiUrl } from '../config/config';
 
 const Info = styled.div`
   opacity: 0;
@@ -77,6 +78,7 @@ interface ProductProps {
 export const Product = ({ item }: ProductProps) => {
   const { _id, img, title, price } = item;
   const dispatch = useDispatch();
+  const publicFolder = `${apiUrl}/product-photos/`;
 
   const handleFavorites = (product: ProductInFavorites) => {
     const date = new Date().toLocaleDateString();
@@ -85,12 +87,12 @@ export const Product = ({ item }: ProductProps) => {
 
   return (
     <Container>
-      <Image src={item.img} />
+      <Image src={publicFolder + img} />
       <Title>{item.title}</Title>
-      <Price>{Number(item.price).toFixed(2)} zł</Price>
+      <Price>{Number(price).toFixed(2)} zł</Price>
       <Info>
         <Icon>
-          <Link to={`/product/${item._id}`}>
+          <Link to={`/product/${_id}`}>
             <SearchOutlined />
           </Link>
         </Icon>

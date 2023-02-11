@@ -6,7 +6,7 @@ import {
   userLogout,
   userCheck,
 } from './userRedux';
-import { url } from '../config/config';
+import { apiUrl } from '../config/config';
 import axios from 'axios';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 type UserLogin = {
@@ -25,7 +25,7 @@ type UserRegister = {
 export const login = async (dispatch: Dispatch<AnyAction>, user: UserLogin) => {
   dispatch(userStart());
   try {
-    const res = await axios.post(`${url}/auth/login`, user, {
+    const res = await axios.post(`${apiUrl}/auth/login`, user, {
       withCredentials: true,
     });
     dispatch(userLoginSuccess(res.data));
@@ -36,7 +36,7 @@ export const login = async (dispatch: Dispatch<AnyAction>, user: UserLogin) => {
 
 export const checkLogin = async (dispatch: Dispatch<AnyAction>) => {
   try {
-    const res = await axios.get(`${url}/auth/check`, { withCredentials: true });
+    const res = await axios.get(`${apiUrl}/auth/check`, { withCredentials: true });
     dispatch(userCheck(res.data));
   } catch {
     dispatch(userCheck(null));
@@ -46,7 +46,7 @@ export const checkLogin = async (dispatch: Dispatch<AnyAction>) => {
 export const register = async (dispatch: Dispatch<AnyAction>, user: UserRegister) => {
   dispatch(userStart());
   try {
-    const res = await axios.post(`${url}/auth/register`, user, {
+    const res = await axios.post(`${apiUrl}/auth/register`, user, {
       withCredentials: true,
     });
     dispatch(userSuccess());
@@ -59,7 +59,7 @@ export const register = async (dispatch: Dispatch<AnyAction>, user: UserRegister
 export const logout = async (dispatch: Dispatch<AnyAction>) => {
   dispatch(userStart());
   try {
-    const res = await axios.get(`${url}/auth/logout`, {
+    const res = await axios.get(`${apiUrl}/auth/logout`, {
       withCredentials: true,
     });
     dispatch(userLogout());

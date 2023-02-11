@@ -9,7 +9,7 @@ import { mobile, tablet } from '../responsive';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { url } from '../config/config';
+import { apiUrl } from '../config/config';
 import { ProductInterface } from 'types';
 import { addProduct, ProductInCart } from '../redux/cartRedux';
 import { useDispatch } from 'react-redux';
@@ -126,7 +126,7 @@ export const Product = () => {
     (async () => {
       try {
         window.scrollTo(0, 0);
-        const res = await axios.get(`${url}/products/${id}`);
+        const res = await axios.get(`${apiUrl}/products/${id}`);
         setProduct(res.data);
       } catch (err) {
         console.log(err);

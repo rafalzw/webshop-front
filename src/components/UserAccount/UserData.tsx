@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { url } from '../../config/config';
+import { apiUrl } from '../../config/config';
 import { checkLogin } from '../../redux/apiCalls';
 import styled from 'styled-components';
 import { mobile } from '../../responsive';
@@ -82,7 +82,7 @@ export const UserData = () => {
     const { firstName, lastName, username, email, password } = values;
     try {
       await axios.put(
-        `${url}/users`,
+        `${apiUrl}/users`,
         { username, firstName, lastName, email, password },
         {
           withCredentials: true,
@@ -127,7 +127,7 @@ export const UserData = () => {
     (async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`${url}/users/${userId}`, {
+        const res = await axios.get(`${apiUrl}/users/${userId}`, {
           withCredentials: true,
         });
         await setValues(res.data);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { url } from '../../config/config';
+import { apiUrl } from '../../config/config';
 import styled from 'styled-components';
 import { OrderInterface } from 'types';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -61,7 +61,7 @@ export const Orders = () => {
     (async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`${url}/orders`, {
+        const res = await axios.get(`${apiUrl}/orders`, {
           withCredentials: true,
         });
         setOrders(res.data);

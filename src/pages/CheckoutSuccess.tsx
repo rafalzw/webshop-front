@@ -1,7 +1,7 @@
 import React, { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState, Dispatch, SetStateAction, MouseEvent, useRef } from 'react';
 import axios from 'axios';
-import { url } from '../config/config';
+import { apiUrl } from '../config/config';
 import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -93,7 +93,7 @@ export const CheckoutSuccess = ({ showOrderModal, setShowOrderModal }: Props) =>
   const createOrder = async (customer: any, amount: number, sessionId: string, items: any) => {
     try {
       const res = await axios.post(
-        `${url}/orders`,
+        `${apiUrl}/orders`,
         {
           address: {
             street: customer.address.street,
@@ -118,7 +118,7 @@ export const CheckoutSuccess = ({ showOrderModal, setShowOrderModal }: Props) =>
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get(`${url}/stripe/success/${location.search}`);
+      const res = await axios.get(`${apiUrl}/stripe/success/${location.search}`);
       const { session, items } = res.data;
 
       if (session.status === 'complete') {

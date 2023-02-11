@@ -1,6 +1,6 @@
 import { ProductInCart } from '../redux/cartRedux';
 import axios from 'axios';
-import { url } from '../config/config';
+import { apiUrl } from '../config/config';
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -36,7 +36,7 @@ export const PayButton = ({ products }: Props) => {
       return navigate('/login');
     }
     try {
-      const res = await axios.post(`${url}/stripe/checkout`, products);
+      const res = await axios.post(`${apiUrl}/stripe/checkout`, products);
       if (res.data.url) {
         window.location.href = res.data.url;
       }

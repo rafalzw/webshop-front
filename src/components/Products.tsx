@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Product } from './Product';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { url } from '../config/config';
+import { apiUrl } from '../config/config';
 import { ProductInterface } from 'types';
 
 const Container = styled.div`
@@ -33,7 +33,9 @@ export const Products = ({ popular = false, cat = '', filters = {}, sort = '' }:
     window.scrollTo(0, 0);
     const getProducts = async () => {
       try {
-        const res = await axios.get(cat ? `${url}/products?category=${cat}` : `${url}/products`);
+        const res = await axios.get(
+          cat ? `${apiUrl}/products?category=${cat}` : `${apiUrl}/products`,
+        );
         setProducts(res.data);
       } catch (err) {
         console.log(err);
