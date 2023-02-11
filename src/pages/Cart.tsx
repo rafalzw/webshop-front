@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { incQuantity, decQuantity } from '../redux/cartRedux';
 import { EmptyList } from '../components/EmptyList';
-import { apiUrl, productImagesFolder } from '../config/config';
+import { productImagesFolder } from '../config/config';
 
 interface TopButtonProps {
   value?: string;
@@ -161,8 +161,10 @@ export const Cart = () => {
     sessionId && setShowOrderModal(true);
   }, []);
 
-  const handleQuantity = (id: string, type: string) => {
-    type === 'inc' ? dispatch(incQuantity(id)) : dispatch(decQuantity(id));
+  const handleQuantity = (id: string, size: string, color: string, type: string) => {
+    type === 'inc'
+      ? dispatch(incQuantity({ id, size, color }))
+      : dispatch(decQuantity({ id, size, color }));
   };
 
   return (
@@ -189,7 +191,7 @@ export const Cart = () => {
             <Bottom>
               <Info>
                 {cart.products.map((product) => (
-                  <Product key={product._id}>
+                  <Product key={product._id + product.size + product.color}>
                     <ProductDetail>
                       <Image src={productImagesFolder + product.img} />
                       <Details>
@@ -204,7 +206,7 @@ export const Cart = () => {
                         <ProductColor color={product.color} />
                         <ProductSize>
                           <b>Rozmiar: </b>
-                          {product.size}
+                          {product.size.toUpperCase()}
                         </ProductSize>
                       </Details>
                     </ProductDetail>
@@ -212,12 +214,16 @@ export const Cart = () => {
                       <ProductAmountContainer>
                         <Remove
                           style={{ cursor: 'pointer' }}
-                          onClick={() => handleQuantity(product._id, 'dec')}
+                          onClick={() =>
+                            handleQuantity(product._id, product.size, product.color, 'dec')
+                          }
                         />
                         <ProductAmount>{product.quantity}</ProductAmount>
                         <Add
                           style={{ cursor: 'pointer' }}
-                          onClick={() => handleQuantity(product._id, 'inc')}
+                          onClick={() =>
+                            handleQuantity(product._id, product.size, product.color, 'inc')
+                          }
                         />
                       </ProductAmountContainer>
                       <ProductPrice>

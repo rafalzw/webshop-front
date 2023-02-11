@@ -128,6 +128,8 @@ export const Product = () => {
         window.scrollTo(0, 0);
         const res = await axios.get(`${apiUrl}/products/${id}`);
         setProduct(res.data);
+        setColor(res.data.color[0]);
+        setSize(res.data.size[0]);
       } catch (err) {
         console.log(err);
       }
@@ -148,7 +150,7 @@ export const Product = () => {
       <Navbar />
       <Wrapper>
         <ImgContainer>
-          <Image src={productImagesFolder + product?.img} />
+          <Image src={product ? productImagesFolder + product.img : ''} />
         </ImgContainer>
         <InfoContainer>
           <Title>{product?.title}</Title>
@@ -165,7 +167,7 @@ export const Product = () => {
               <FilterTitle>Rozmiar</FilterTitle>
               <FilterSize onChange={(e) => setSize(e.target.value)}>
                 {product?.size?.map((s) => (
-                  <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                  <FilterSizeOption key={s}>{s.toUpperCase()}</FilterSizeOption>
                 ))}
               </FilterSize>
             </Filter>

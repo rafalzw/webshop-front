@@ -20,6 +20,12 @@ export interface CartState {
   total: number;
 }
 
+export interface ProductQuantity {
+  id: string;
+  size: string;
+  color: string;
+}
+
 const initialState: CartState = {
   products: [],
   quantity: 0,
@@ -39,30 +45,54 @@ const cartSlice = createSlice({
       }
     },
     addProduct: (state, action: PayloadAction<ProductInCart>) => {
+      const index = state.products.findIndex(
+        (product) =>
+          product._id === action.payload._id &&
+          product.size === action.payload.size &&
+          product.color === action.payload.color,
+      );
+      if (index !== -1) {
+        state.products[index].quantity += action.payload.quantity;
+        state.total += state.products[index].price * action.payload.quantity;
+        localStorage.setItem('cart', JSON.stringify(state));
+        return;
+      }
+
       state.quantity += 1;
       state.products.push(action.payload);
       state.total += action.payload.price * action.payload.quantity;
       localStorage.setItem('cart', JSON.stringify(state));
     },
 
-    incQuantity: (state, action: PayloadAction<string>) => {
-      const id = state.products.findIndex((el) => el._id === action.payload);
-      state.products[id].quantity += 1;
-      state.total += state.products[id].price;
+    incQuantity: (state, action: PayloadAction<ProductQuantity>) => {
+      const index = state.products.findIndex(
+        (product) =>
+          product._id === action.payload.id &&
+          product.size === action.payload.size &&
+          product.color === action.payload.color,
+      );
+      state.products[index].quantity += 1;
+      state.total += state.products[index].price;
       localStorage.setItem('cart', JSON.stringify(state));
     },
-    decQuantity: (state, action: PayloadAction<string>) => {
-      const id = state.products.findIndex((el) => el._id === action.payload);
 
-      if (state.products[id].quantity <= 1) {
-        state.total -= state.products[id].price;
-        state.products.splice(id, 1);
+    decQuantity: (state, action: PayloadAction<ProductQuantity>) => {
+      const index = state.products.findIndex(
+        (product) =>
+          action.payload.id &&
+          product.size === action.payload.size &&
+          product.color === action.payload.color,
+      );
+
+      if (state.products[index].quantity <= 1) {
+        state.total -= state.products[index].price;
+        state.products.splice(index, 1);
         state.quantity -= 1;
         localStorage.setItem('cart', JSON.stringify(state));
         return;
       }
-      state.products[id].quantity -= 1;
-      state.total -= state.products[id].price;
+      state.products[index].quantity -= 1;
+      state.total -= state.products[index].price;
       localStorage.setItem('cart', JSON.stringify(state));
     },
 
